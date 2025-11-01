@@ -1,6 +1,5 @@
 import 'package:app_demo/screens/screens.dart';
 
-
 class Navegacion extends StatefulWidget {
   const Navegacion({super.key});
   @override
@@ -8,17 +7,16 @@ class Navegacion extends StatefulWidget {
 }
 
 class _NavegacionBar extends State<Navegacion> {
- 
   static const List<Widget> _widgetOptions = <Widget>[
     Galeria(),
     Buscador(),
     GaleriaArtista(),
-    Obra()
+    Obra2()
   ];
 
   @override
   Widget build(BuildContext context) {
-    final page = Provider.of<PaginaHandler>(context, listen: true );    
+    final page = Provider.of<PaginaHandler>(context, listen: true);
 
     return Scaffold(
       drawer: const DrawerMenu(),
@@ -34,28 +32,44 @@ class _NavegacionBar extends State<Navegacion> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,),
-            activeIcon: Icon(Icons.home,),
+            icon: Icon(
+              Icons.home,
+            ),
+            activeIcon: Icon(
+              Icons.home,
+            ),
             label: 'Galeria',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search,),
-            activeIcon: Icon(Icons.search,),
+            icon: Icon(
+              Icons.search,
+            ),
+            activeIcon: Icon(
+              Icons.search,
+            ),
             label: 'Explorar',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person,),
-            activeIcon: Icon(Icons.person,),
+            icon: Icon(
+              Icons.person,
+            ),
+            activeIcon: Icon(
+              Icons.person,
+            ),
             label: 'Artista',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.image,),
-            activeIcon: Icon(Icons.image,),
+            icon: Icon(
+              Icons.image,
+            ),
+            activeIcon: Icon(
+              Icons.image,
+            ),
             label: 'Cuadro',
           ),
         ],
         currentIndex: page.paginaActual,
-        onTap: (value){
+        onTap: (value) {
           page.paginaActual = value;
         },
         iconSize: 20,
@@ -63,4 +77,3 @@ class _NavegacionBar extends State<Navegacion> {
     );
   }
 }
-

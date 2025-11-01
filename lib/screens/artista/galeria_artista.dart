@@ -6,20 +6,20 @@ class GaleriaArtista extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final handler = Provider.of<PaginaHandler>(context, listen: false);
-    final museumService = Provider.of<MuseumService>(context, listen: false);       
+    final museumService = Provider.of<MuseumService>(context, listen: false);
     String artista = handler.artistaSeleccionado;
 
-    return FutureBuilder<List<ObraSimple>>(
+    return FutureBuilder<List<Obra>>(
       future: museumService.getObrasPorArtista(artista),
-      builder: (BuildContext context, AsyncSnapshot<List<ObraSimple>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Obra>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Loading();         
+          return const Loading();
         } else if (snapshot.hasError) {
           // Manejo de errores
           return Text('Error: ${snapshot.error}');
         } else {
           // Si la llamada a la API es exitosa
-          List<ObraSimple> listaObras = snapshot.data!;
+          List<Obra> listaObras = snapshot.data!;
 
           return Column(
             children: <Widget>[
@@ -28,15 +28,15 @@ class GaleriaArtista extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.all(9.0),
                     child: Text(
-                      'ARTISTA',                     
+                      'ARTISTA',
                     ),
                   ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(9.0),
                       child: Text(
-                          artista,                        
-                        ),
+                        artista,
+                      ),
                     ),
                   ),
                 ],
@@ -46,7 +46,7 @@ class GaleriaArtista extends StatelessWidget {
                   itemCount: listaObras.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {                      
+                      onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => FullScreen(
                                 url: listaObras[index].webImage.url,

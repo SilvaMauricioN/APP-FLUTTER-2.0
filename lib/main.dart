@@ -1,18 +1,19 @@
 import 'package:app_demo/screens/screens.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => PaginaHandler()),
-        ChangeNotifierProvider(create: (context) => MuseumService()),
-        ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(isDarkMode: false)),         
-
-      ],
-      child:const MyApp(),
-    )
-  );
-    //const MyApp());
+void main() async {
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => PaginaHandler()),
+      ChangeNotifierProvider(create: (context) => MuseumService()),
+      ChangeNotifierProvider(create: (context) => ObraProvider()),
+      ChangeNotifierProvider<ThemeProvider>(
+          create: (_) => ThemeProvider(isDarkMode: false)),
+    ],
+    child: const MyApp(),
+  ));
+  await dotenv.load(fileName: ".env");
+  //const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,11 +23,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Demo App Museo',
-      theme: Provider.of<ThemeProvider>(context,listen:true).temaActual,   
+      theme: Provider.of<ThemeProvider>(context, listen: true).temaActual,
       initialRoute: 'Inicio',
       routes: {
-        'Inicio':(context) => const Inicio(),
-        'Navegacion':(context) => const Navegacion()
+        'Inicio': (context) => const Inicio(),
+        'Navegacion': (context) => const Navegacion()
       },
     );
   }

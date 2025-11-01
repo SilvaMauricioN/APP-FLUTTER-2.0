@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:app_demo/screens/screens.dart';
 
 class MuseumService with ChangeNotifier {
-  final String baseUrl = 'http://192.168.0.83:8080/api/museorijks';
+  final String baseUrl = 'https://museo-dwgk.onrender.com/api/museorijks';
   static const Map<String, String> defaultHeaders = {
     'api-key': 'NjSSMo3S0L',
     'Content-Type': 'application/json',
@@ -25,13 +25,13 @@ class MuseumService with ChangeNotifier {
     }
   }
 
-  Future<List<ObraSimple>> getObrasPorArtista(String nombreArtista) async {
+  Future<List<Obra>> getObrasPorArtista(String nombreArtista) async {
     final response = await http.get(
         Uri.parse('$baseUrl/collecion/Artista?artista=$nombreArtista'),
         headers: defaultHeaders);
 
     if (response.statusCode == 200) {
-      List<ObraSimple> listaObrasArtista = obrasSimpleFromJson(response.body);
+      List<Obra> listaObrasArtista = obrasSimpleFromJson(response.body);
       return listaObrasArtista;
     } else {
       throw Exception('Error al Cargar las Obras del Artista');
@@ -44,18 +44,19 @@ class MuseumService with ChangeNotifier {
 
     if (response.statusCode == 200) {
       ObraDetalle obraArtista = obraDetalleFromJson(response.body);
+
       return obraArtista;
     } else {
       throw Exception('Error al Cargar la Obra');
     }
   }
 
-  Future<List<ObraSimple>> getColeccion() async {
+  Future<List<Obra>> getColeccion() async {
     final response = await http.get(Uri.parse('$baseUrl/obras/coleccion'),
         headers: defaultHeaders);
 
     if (response.statusCode == 200) {
-      List<ObraSimple> listaColecionObras = obrasSimpleFromJson(response.body);
+      List<Obra> listaColecionObras = obrasSimpleFromJson(response.body);
       return listaColecionObras;
     } else {
       throw Exception('Error al Cargar la Coleccion');

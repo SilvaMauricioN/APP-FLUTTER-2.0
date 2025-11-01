@@ -8,7 +8,8 @@ class Buscador extends StatefulWidget {
 }
 
 class _BuscadorState extends State<Buscador> {
-  static const String url = 'https://cdn3.iconfinder.com/data/icons/people-activities-scenes/64/painting-512.png';
+  static const String url =
+      'https://cdn3.iconfinder.com/data/icons/people-activities-scenes/64/painting-512.png';
   bool isLoading = true;
   late List<Artistas> listaArtistas = [];
   List<Artistas> estadoInicial = [];
@@ -39,7 +40,7 @@ class _BuscadorState extends State<Buscador> {
   void filtrarBusqueda(String datoIngresado) {
     List<Artistas> resultadosFiltrados = [];
     for (Artistas artista in listaArtistas) {
-      if (artista.key.toLowerCase().contains(datoIngresado.toLowerCase())) {
+      if (artista.name.toLowerCase().contains(datoIngresado.toLowerCase())) {
         resultadosFiltrados.add(artista);
       }
     }
@@ -57,8 +58,9 @@ class _BuscadorState extends State<Buscador> {
           children: [
             const Padding(
               padding: EdgeInsets.all(9.0),
-              child: Text('ARTISTAS',
-                  ),
+              child: Text(
+                'ARTISTAS',
+              ),
             ),
             buscadorWidget(),
           ],
@@ -82,13 +84,13 @@ class _BuscadorState extends State<Buscador> {
                   itemCount: estadoInicial.length,
                   itemBuilder: (context, index) {
                     return TarjetaArtista(
-                        nombre: estadoInicial[index].key, url: url);
+                        nombre: estadoInicial[index].name, url: url);
                   },
                 ),
               ),
               Visibility(
                 visible: isLoading,
-                child: const Loading(),            
+                child: const Loading(),
               ),
             ],
           ),
@@ -106,9 +108,13 @@ class _BuscadorState extends State<Buscador> {
             filtrarBusqueda(value);
           },
           decoration: const InputDecoration(
-              labelText: "Buscar",
-              hintText: "Buscar",
-              prefixIcon: Icon(Icons.search,color: Colors.black,),),             
+            labelText: "Buscar",
+            hintText: "Buscar",
+            prefixIcon: Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
+          ),
           enabled: !isLoading,
         ),
       ),

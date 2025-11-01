@@ -26,19 +26,20 @@ class GaleriaCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          url.isNotEmpty ?
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.23,
-            child: FadeInImage(
-              placeholder:const  AssetImage('assets/images/loading.gif'),
-              image: NetworkImage(url),
-              fit:BoxFit.cover,              
-              ),
-          ): Image.asset('assets/images/Image_not_available.png'),
+          url.isNotEmpty
+              ? SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.23,
+                  child: FadeInImage(
+                    placeholder: const AssetImage('assets/images/loading.gif'),
+                    image: NetworkImage(url),
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : Image.asset('assets/images/Image_not_available.png'),
           Container(
             //padding: const  EdgeInsets.all(20),
             margin: const EdgeInsets.all(5),
-            child:Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
@@ -46,17 +47,17 @@ class GaleriaCard extends StatelessWidget {
                     handler.numeroObjeto = objectNumber;
                     handler.paginaActual = 3;
                   },
-                  child: Text(titulo,                   
+                  child: Text(
+                    titulo,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(subTitulo, 
-                  style:const  TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500
-                  ),
+                Text(
+                  subTitulo,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),

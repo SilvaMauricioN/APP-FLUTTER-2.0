@@ -7,6 +7,7 @@ export 'package:app_demo/providers/museo_service.dart';
 export 'package:app_demo/providers/pagina_handler.dart';
 export 'package:app_demo/providers/theme_provider.dart';
 export 'package:provider/provider.dart';
+export '../providers/obra_provider.dart';
 
 //Paquete widgets
 export 'package:app_demo/widgets/navegacion.dart';
@@ -21,13 +22,13 @@ export 'package:app_demo/widgets/descripcion.dart';
 
 //Paquete Screens
 export 'package:app_demo/screens/inicio.dart';
-export 'package:app_demo/screens/galeria_artista.dart';
-export 'package:app_demo/screens/buscador_artista.dart';
-export 'package:app_demo/screens/galeria.dart';
-export 'package:app_demo/screens/obra.dart';
+export 'package:app_demo/screens/artista/galeria_artista.dart';
+export 'package:app_demo/screens/artista/buscador_artista.dart';
+export 'package:app_demo/screens/obras/galeria.dart';
+export 'package:app_demo/screens/obras/obra2.dart';
 
 //Paquete modelos
-export 'package:app_demo/models/obra_simple.dart';
+export 'package:app_demo/models/obra.dart';
 export 'package:app_demo/models/obra_detalle.dart';
 export 'package:app_demo/models/artista_simple.dart';
 
