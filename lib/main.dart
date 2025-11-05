@@ -7,6 +7,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => PaginaHandler()),
       ChangeNotifierProvider(create: (context) => MuseumService()),
       ChangeNotifierProvider(create: (context) => ObraProvider()),
+      ChangeNotifierProvider(create: (context) => ObraDetalleProvider()),
       ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(isDarkMode: false)),
     ],

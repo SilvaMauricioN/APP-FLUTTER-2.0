@@ -13,7 +13,7 @@ class __InicioState extends State<Inicio> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/VincentCoster.jpg"),
+          image: AssetImage("assets/images/colosal.jpg"),
           fit: BoxFit.cover,
         ),
       ),

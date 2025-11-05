@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'img.dart';
+import '../screens/screens.dart';
 
 //De json a lista  objeto ObraSimple
 List<Obra> obrasSimpleFromJson(String str) {

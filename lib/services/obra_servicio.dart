@@ -1,36 +1,44 @@
-import 'package:app_demo/models/titulo_alternativo.dart';
+import '../screens/screens.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../models/obra.dart';
-import '../models/obra_detalle.dart';
-import '../models/img.dart';
-import '../models/fecha.dart';
-import '../config/api_config.dart';
-// import '../utils/constants.dart';
 
 class ObraServicio {
   final String baseUrl = ApiConfig.baseUrl;
   final Map<String, String> headers = ApiConfig.defaultHeaders;
 
-  // GET - Lista de obras
-  Future<List<Obra>> getColeccionObras({int page = 1, int limit = 20}) async {
-    try {
-      final response = await http.get(
-          Uri.parse('$baseUrl/obras/coleccion?pagina=$page&limite=$limit'),
-          headers: headers);
+  Future<ApiResponse<Obra>> getColeccionObras(
+      {int pagina = 1, int limite = 20}) async {
+    final response = await http.get(
+        Uri.parse('$baseUrl/obras/coleccion?pagina=$pagina&limite=$limite'),
+        headers: headers);
 
-      if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
-        final List<dynamic> data = jsonData['data'];
-        return data.map((json) => Obra.fromJson(json)).toList();
-      } else {
-        throw Exception(
-            'Error ${response.statusCode}: ${response.reasonPhrase}');
-      }
-    } catch (error) {
-      throw Exception('Error de conexion: $error');
+    if (response.statusCode == 200) {
+      return ApiResponse.fromJson(
+        json.decode(response.body),
+        (json) => Obra.fromJson(json),
+      );
     }
+    throw Exception('Nose puede cargar obras');
   }
+
+  // GET - Lista de obras
+//   Future<List<Obra>> getColeccionObras({int page = 1, int limit = 20}) async {
+//     try {
+//       final response = await http.get(
+//           Uri.parse('$baseUrl/obras/coleccion?pagina=$page&limite=$limit'),
+//           headers: headers);
+//
+//       if (response.statusCode == 200) {
+//         final jsonData = json.decode(response.body);
+//         final List<dynamic> data = jsonData['data'];
+//         return data.map((json) => Obra.fromJson(json)).toList();
+//       } else {
+//         throw Exception(
+//             'Error ${response.statusCode}: ${response.reasonPhrase}');
+//       }
+//     } catch (error) {
+//       throw Exception('Error de conexion: $error');
+//     }
+//   }
 
   // GET - Detalle de una obra
   Future<ObraDetalle> getObraDetalle(String objectNumber) async {

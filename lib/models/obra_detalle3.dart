@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-ObraDetalle obraDetalleFromJson(String str) =>
-    ObraDetalle.fromJson(json.decode(str));
+ObraDetalle3 obraDetalleFromJson(String str) =>
+    ObraDetalle3.fromJson(json.decode(str));
 
-String obraDetalleToJson(ObraDetalle data) => json.encode(data.toJson());
+String obraDetalleToJson(ObraDetalle3 data) => json.encode(data.toJson());
 
-class ObraDetalle {
-  String id;
+class ObraDetalle3 {
+  //String id;
   String objectNumber;
   String title;
   String longTitle;
@@ -24,8 +24,8 @@ class ObraDetalle {
   List<Dimension> dimensions;
   String physicalMedium;
 
-  ObraDetalle({
-    required this.id,
+  ObraDetalle3({
+    //required this.id,
     required this.objectNumber,
     required this.title,
     required this.longTitle,
@@ -44,9 +44,9 @@ class ObraDetalle {
     required this.physicalMedium,
   });
 
-  factory ObraDetalle.fromJson(Map<String, dynamic> json) => ObraDetalle(
-        id: json["id"],
-        objectNumber: json["objectNumber"],
+  factory ObraDetalle3.fromJson(Map<String, dynamic> json) => ObraDetalle3(
+        //id: json["id"],
+        objectNumber: json['objectnumber'] as String,
         title: json["title"],
         longTitle: json["longTitle"],
         copyrightHolder: json["copyrightHolder"],
@@ -69,7 +69,7 @@ class ObraDetalle {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        //"id": id,
         "objectNumber": objectNumber,
         "title": title,
         "longTitle": longTitle,

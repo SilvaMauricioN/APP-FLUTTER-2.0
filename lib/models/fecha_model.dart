@@ -1,6 +1,6 @@
 class Fecha {
-  int? idDating;
-  int? idArtObject;
+  // int? idDating;
+  // int? idArtObject;
   String presentingDate;
   int sortingDate;
   int period;
@@ -8,8 +8,8 @@ class Fecha {
   int yearLate;
 
   Fecha({
-    this.idDating,
-    this.idArtObject,
+    // this.idDating,
+    // this.idArtObject,
     required this.presentingDate,
     required this.sortingDate,
     required this.period,
@@ -26,7 +26,7 @@ class Fecha {
       );
 
   Map<String, dynamic> toJson() => {
-        "IdArtObject": idArtObject,
+        // "IdArtObject": idArtObject,
         "presentingDate": presentingDate,
         "sortingDate": sortingDate,
         "period": period,

@@ -30,7 +30,8 @@ class GaleriaCard extends StatelessWidget {
               ? SizedBox(
                   height: MediaQuery.of(context).size.height * 0.23,
                   child: FadeInImage(
-                    placeholder: const AssetImage('assets/images/loading.gif'),
+                    placeholder:
+                        const AssetImage('assets/images/loadingImg.gif'),
                     image: NetworkImage(url),
                     fit: BoxFit.cover,
                   ),

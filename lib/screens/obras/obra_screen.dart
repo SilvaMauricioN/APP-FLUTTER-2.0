@@ -1,16 +1,18 @@
 import 'package:app_demo/screens/screens.dart';
 
-class Obra2 extends StatelessWidget {
-  const Obra2({super.key});
+class ObraScreen extends StatelessWidget {
+  const ObraScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final handler = Provider.of<PaginaHandler>(context, listen: false);
-    final museumService = Provider.of<MuseumService>(context, listen: false);
+    final obraDetalleProvider =
+        Provider.of<ObraDetalleProvider>(context, listen: false);
+    //final museumService = Provider.of<MuseumService>(context, listen: false);
     String idObjeto = handler.numeroObjeto;
 
     return FutureBuilder<ObraDetalle>(
-        future: museumService.getObraPorId(idObjeto),
+        future: obraDetalleProvider.getObraPorId(idObjeto),
         builder: (BuildContext context, AsyncSnapshot<ObraDetalle> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();
@@ -27,7 +29,7 @@ class Obra2 extends StatelessWidget {
                         width: double.infinity,
                         child: FadeInImage(
                           placeholder:
-                              const AssetImage('assets/images/loading.gif'),
+                              const AssetImage('assets/images/loadingImg.gif'),
                           image: NetworkImage(obraDetalle.url),
                           fit: BoxFit.cover,
                         ),
@@ -39,17 +41,18 @@ class Obra2 extends StatelessWidget {
                   child: Titulos(
                       title: obraDetalle.title,
                       longTitle: obraDetalle.longTitle,
-                      principalMaker: obraDetalle.principalMaker),
+                      principalMaker: obraDetalle.name),
                 ),
                 divisor(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Detalles(
-                    year: obraDetalle.dating.yearEarly.toString(),
+                    year: obraDetalle.yearEarly,
                     physicalMedium: obraDetalle.physicalMedium,
-                    productionPlaces: obraDetalle.productionPlaces.isNotEmpty
-                        ? obraDetalle.productionPlaces[0]
-                        : 'Undetermined',
+                    productionPlaces:
+                        (obraDetalle.productionPlaces?.isNotEmpty ?? false)
+                            ? obraDetalle.productionPlaces![0]
+                            : 'No determinado',
                   ),
                 ),
                 divisor(),

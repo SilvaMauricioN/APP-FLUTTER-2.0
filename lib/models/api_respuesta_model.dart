@@ -1,0 +1,40 @@
+import './paginacion_model.dart';
+
+class ApiResponse<T> {
+  final String status;
+  final String message;
+  final bool? hayResultado;
+  final Paginacion? paginacion;
+  final List<T>? data;
+
+  ApiResponse({
+    required this.status,
+    required this.message,
+    this.hayResultado,
+    this.paginacion,
+    this.data,
+  });
+
+  factory ApiResponse.fromJson(
+    Map<String, dynamic> json,
+    T Function(Map<String, dynamic>) fromJsonT,
+  ) {
+    return ApiResponse<T>(
+      status: json['status'] as String,
+      message: json['message'] as String,
+      hayResultado: json['hayResultado'],
+      paginacion: json['paginacion'] != null
+          ? Paginacion.fromJson(json['paginacion'])
+          : null,
+      data: json['data'] != null
+          ? (json['data'] as List<dynamic>)
+              .map((e) => fromJsonT(e as Map<String, dynamic>))
+              .toList()
+          : null,
+    );
+  }
+
+  bool get isSuccess => status == 'success';
+  bool get tieneResultados =>
+      hayResultado == true || (data != null && data!.isNotEmpty);
+}

@@ -1,51 +1,73 @@
-import 'package:app_demo/screens/screens.dart';
+import '../screens.dart';
 
 class Galeria extends StatelessWidget {
   const Galeria({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //final museumService = Provider.of<MuseumService>(context, listen: false);
+    // Cargar obras
     final obraProvider = Provider.of<ObraProvider>(context, listen: false);
 
-    return FutureBuilder<List<Obra>>(
-      future: obraProvider.fetchObras(),
-      builder: (BuildContext context, AsyncSnapshot<List<Obra>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Loading();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          List<Obra> listaColeccion = snapshot.data!;
+    // Solo cargar si está vacío
+    if (obraProvider.obras.isEmpty &&
+        !obraProvider.isLoading &&
+        obraProvider.errorMsg == null) {
+      Future.microtask(() => obraProvider.fetchObras());
+    }
 
+    return Consumer<ObraProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoading) {
+          return const Loading();
+        }
+
+        if (provider.errorMsg != null) {
           return Center(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, mainAxisExtent: 300),
-              itemCount: listaColeccion.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => FullScreen(
-                            url: listaColeccion[index].webImage.url,
-                            context: context)));
-                  },
-                  child: Hero(
-                    tag: 'imageHero$index',
-                    child: GaleriaCard(
-                        titulo: limitarTexto(listaColeccion[index].title),
-                        subTitulo: limitarTexto(
-                            listaColeccion[index].principalOrFirstMaker),
-                        url: listaColeccion[index].webImage.url,
-                        objectNumber: listaColeccion[index].objectNumber,
-                        context: context),
-                  ),
-                );
-              },
-            ),
+            child: Text('Error: ${provider.errorMsg}'),
           );
         }
+
+        List<Obra> listaColeccion = provider.obras;
+
+        if (listaColeccion.isEmpty) {
+          return const Center(
+            child: Text('No hay obras disponibles'),
+          );
+        }
+
+        return Column(
+          children: [
+            // _buildPaginationControls(context, provider),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, mainAxisExtent: 300),
+                itemCount: listaColeccion.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => FullScreen(
+                              url: listaColeccion[index].webImage.url,
+                              context: context)));
+                    },
+                    child: Hero(
+                      tag: 'imageHero$index',
+                      child: GaleriaCard(
+                          titulo: limitarTexto(listaColeccion[index].title),
+                          subTitulo: limitarTexto(
+                              listaColeccion[index].principalOrFirstMaker),
+                          url: listaColeccion[index].webImage.url,
+                          objectNumber: listaColeccion[index].objectNumber,
+                          context: context),
+                    ),
+                  );
+                },
+              ),
+            ),
+            PaginacionControl(provider: provider),
+          ],
+        );
       },
     );
   }

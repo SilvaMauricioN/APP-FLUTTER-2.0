@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:app_demo/screens/screens.dart';
+// import 'dart:convert';
 
 class MuseumService with ChangeNotifier {
   final String baseUrl = 'https://museo-dwgk.onrender.com/api/museorijks';
@@ -10,7 +11,7 @@ class MuseumService with ChangeNotifier {
 
   // final String baseUrl = 'https://museorijks.onrender.com/api/MuseoRijks';
 
-  Future<List<Artistas>> getArtistas() async {
+  Future<List<Artista>> getArtistas() async {
     final response = await http.get(
         Uri.parse(
           '$baseUrl/Artistas',
@@ -18,7 +19,7 @@ class MuseumService with ChangeNotifier {
         headers: defaultHeaders);
 
     if (response.statusCode == 200) {
-      List<Artistas> listaArtistas = artistasFromJson(response.body);
+      List<Artista> listaArtistas = artistasFromJson(response.body);
       return listaArtistas;
     } else {
       throw Exception('Error al Cargar  los Artistas');
@@ -38,18 +39,21 @@ class MuseumService with ChangeNotifier {
     }
   }
 
-  Future<ObraDetalle> getObraPorId(String id) async {
-    final response =
-        await http.get(Uri.parse('$baseUrl/Obra/$id'), headers: defaultHeaders);
-
-    if (response.statusCode == 200) {
-      ObraDetalle obraArtista = obraDetalleFromJson(response.body);
-
-      return obraArtista;
-    } else {
-      throw Exception('Error al Cargar la Obra');
-    }
-  }
+//   Future<ObraDetalle> getObraPorId(String id) async {
+//     final response =
+//         await http.get(Uri.parse('$baseUrl/Obra/$id'), headers: defaultHeaders);
+//
+//     final jsonData = json.decode(response.body);
+//     print("REsponse: $response");
+//     print("jsonData: $jsonData");
+//     if (response.statusCode == 200) {
+//       ObraDetalle obraArtista = obraDetalleFromJson(jsonData['data'][0]);
+//
+//       return obraArtista;
+//     } else {
+//       throw Exception('Error al Cargar la Obra');
+//     }
+//   }
 
   Future<List<Obra>> getColeccion() async {
     final response = await http.get(Uri.parse('$baseUrl/obras/coleccion'),

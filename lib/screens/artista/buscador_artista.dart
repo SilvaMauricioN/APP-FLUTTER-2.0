@@ -11,8 +11,8 @@ class _BuscadorState extends State<Buscador> {
   static const String url =
       'https://cdn3.iconfinder.com/data/icons/people-activities-scenes/64/painting-512.png';
   bool isLoading = true;
-  late List<Artistas> listaArtistas = [];
-  List<Artistas> estadoInicial = [];
+  late List<Artista> listaArtistas = [];
+  List<Artista> estadoInicial = [];
   @override
   void initState() {
     super.initState();
@@ -26,7 +26,7 @@ class _BuscadorState extends State<Buscador> {
     });
 
     final museumService = Provider.of<MuseumService>(context, listen: false);
-    List<Artistas> artistasApi = await museumService.getArtistas();
+    List<Artista> artistasApi = await museumService.getArtistas();
     //comprueba si el widget todavia esta en el arbol de widdget,
     if (mounted) {
       setState(() {
@@ -38,8 +38,8 @@ class _BuscadorState extends State<Buscador> {
   }
 
   void filtrarBusqueda(String datoIngresado) {
-    List<Artistas> resultadosFiltrados = [];
-    for (Artistas artista in listaArtistas) {
+    List<Artista> resultadosFiltrados = [];
+    for (Artista artista in listaArtistas) {
       if (artista.name.toLowerCase().contains(datoIngresado.toLowerCase())) {
         resultadosFiltrados.add(artista);
       }
