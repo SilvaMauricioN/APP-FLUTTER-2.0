@@ -2,6 +2,7 @@ import '../screens/screens.dart';
 
 class ObraProvider with ChangeNotifier {
   final ObraServicio _obraServicio = ObraServicio();
+
   //variables
   List<Obra> _listaObras = [];
   bool _isLoading = false;
@@ -69,21 +70,5 @@ class ObraProvider with ChangeNotifier {
   void resetPaginacion() {
     paginaActual = 1;
     fetchObras();
-  }
-
-  // Cargar lista de obras
-  Future<List<Obra>> fetchObras3({int page = 1, int limit = 20}) async {
-    _isLoading = true;
-    _errorMsg = null;
-    // notifyListeners();
-    try {
-      // _listaObras =
-      //     await _obraServicio.getColeccionObras(page: page, limit: limit);
-
-      return _listaObras;
-    } catch (e) {
-      _errorMsg = 'Error al cargar obras: $e';
-      return [];
-    }
   }
 }

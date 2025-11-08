@@ -60,9 +60,7 @@ class __InicioState extends State<Inicio> {
         child: const Text(
           "INICIAR",
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     );

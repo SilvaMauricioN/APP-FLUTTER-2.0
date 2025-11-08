@@ -1,4 +1,4 @@
-import 'package:app_demo/screens/screens.dart';
+import '../screens.dart';
 
 class ObraScreen extends StatelessWidget {
   const ObraScreen({super.key});
@@ -8,72 +8,119 @@ class ObraScreen extends StatelessWidget {
     final handler = Provider.of<PaginaHandler>(context, listen: false);
     final obraDetalleProvider =
         Provider.of<ObraDetalleProvider>(context, listen: false);
-    //final museumService = Provider.of<MuseumService>(context, listen: false);
     String idObjeto = handler.numeroObjeto;
 
-    return FutureBuilder<ObraDetalle>(
-        future: obraDetalleProvider.getObraPorId(idObjeto),
+    final Future<ObraDetalle> obraFuture =
+        obraDetalleProvider.getObraPorId(idObjeto);
+
+    return Scaffold(
+      body: FutureBuilder<ObraDetalle>(
+        future: obraFuture, //obraDetalleProvider.getObraPorId(idObjeto),
         builder: (BuildContext context, AsyncSnapshot<ObraDetalle> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            ObraDetalle obraDetalle = snapshot.data!;
-
-            return ListView(
-              children: [
-                obraDetalle.url.isNotEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        width: double.infinity,
-                        child: FadeInImage(
-                          placeholder:
-                              const AssetImage('assets/images/loadingImg.gif'),
-                          image: NetworkImage(obraDetalle.url),
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : Image.asset('assets/images/Image_not_available.png'),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Titulos(
-                      title: obraDetalle.title,
-                      longTitle: obraDetalle.longTitle,
-                      principalMaker: obraDetalle.name),
-                ),
-                divisor(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Detalles(
-                    year: obraDetalle.yearEarly,
-                    physicalMedium: obraDetalle.physicalMedium,
-                    productionPlaces:
-                        (obraDetalle.productionPlaces?.isNotEmpty ?? false)
-                            ? obraDetalle.productionPlaces![0]
-                            : 'No determinado',
-                  ),
-                ),
-                divisor(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Descripcion(description: obraDetalle.description),
-                ),
-              ],
-            );
+            final error = snapshot.error;
+            if (error is ObraNoEncontradaException) {
+              return RecursoNoEncontrado(
+                mensaje: 'Obra no encontrada',
+                onVolver: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const ObraScreen())),
+              );
+            } else {
+              return WidgetErrorServer(errorMsg: error.toString());
+            }
+          } else if (!snapshot.hasData) {
+            return const WidgetErrorServer(errorMsg: 'No se encontró la obra');
           }
-        });
+
+          ObraDetalle obraDetalle = snapshot.data!;
+          return _contenidoPantalla(context, obraDetalle);
+        },
+      ),
+    );
   }
 
-  Padding divisor() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        height: 1,
-        color: Colors.black,
-        margin: const EdgeInsets.symmetric(vertical: 8),
-      ),
+  Widget _contenidoPantalla(BuildContext context, ObraDetalle obraDetalle) {
+    return CustomScrollView(
+      slivers: [
+        // App Bar con imagen de fondo
+        ObraAppBar(obraDetalle: obraDetalle),
+
+        // Contenido
+        SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Cabecera(obraDetalle: obraDetalle),
+              ListaInfo(obraDetalle: obraDetalle),
+
+              if (obraDetalle.description.isNotEmpty)
+                Seccion(
+                  titulo: 'Descripción',
+                  icono: Icons.article_outlined,
+                  color: Colors.blue,
+                  child: Text(
+                    obraDetalle.description,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          height: 1.4,
+                          color: Colors.grey[600],
+                        ),
+                  ),
+                ),
+
+              if (obraDetalle.historicalDescription?.isNotEmpty ?? false)
+                Seccion(
+                  titulo: 'Historia',
+                  icono: Icons.account_balance_outlined,
+                  color: Colors.green,
+                  child: Text(
+                    obraDetalle.historicalDescription!,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          height: 1.4,
+                          color: Colors.grey[600],
+                        ),
+                  ),
+                ),
+
+              if (obraDetalle.plaqueDescription.isNotEmpty)
+                Seccion(
+                  titulo: 'Placa',
+                  icono: Icons.history_edu,
+                  color: Colors.purple,
+                  child: Text(
+                    obraDetalle.plaqueDescription,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          height: 1.4,
+                          color: Colors.grey[600],
+                        ),
+                  ),
+                ),
+
+              ExtraInfo(
+                  icono: Icons.style_rounded,
+                  titulo: 'Materiales',
+                  items: obraDetalle.materials!,
+                  color: Colors.orange),
+
+              ExtraInfo(
+                  icono: Icons.brush_outlined,
+                  titulo: 'Tipo de Objeto',
+                  items: obraDetalle.objectTypes,
+                  color: Colors.blue),
+
+              // Títulos alternativos
+              TituloExtra(
+                  icono: Icons.list_outlined,
+                  titulo: 'Titulos Alternativos',
+                  items: obraDetalle.otherTitles!,
+                  color: Colors.green),
+
+              const SizedBox(height: 32),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

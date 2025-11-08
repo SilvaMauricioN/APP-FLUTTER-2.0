@@ -1,5 +1,4 @@
 import 'package:app_demo/screens/screens.dart';
-import '../screens/obras/obra_screen2.dart';
 
 class Navegacion extends StatefulWidget {
   const Navegacion({super.key});
@@ -12,7 +11,7 @@ class _NavegacionBar extends State<Navegacion> {
     Galeria(),
     Buscador(),
     GaleriaArtista(),
-    ObraScreen2()
+    ObraScreen()
   ];
 
   @override

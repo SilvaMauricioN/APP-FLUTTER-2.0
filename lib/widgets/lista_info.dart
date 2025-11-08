@@ -10,8 +10,6 @@ class ListaInfo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        // crossAxisAlignment.stretch es opcional, pero asegura que los hijos
-        // (las InfoCard) se expandan al ancho máximo de la columna.
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (obraDetalle.datings?.yearEarly != null)
@@ -21,20 +19,14 @@ class ListaInfo extends StatelessWidget {
               valor: obraDetalle.datings!.yearEarly.toString(),
               color: Colors.blue,
             ),
-
-          // Separador vertical entre tarjetas
-          // if (obraDetalle.datings?.yearEarly != null)
-          //   const SizedBox(height: 12),
-
+          const SizedBox(height: 12),
           InfoCard(
             icono: Icons.location_on,
             texto: 'Lugar',
             valor: obraDetalle.productionPlaces!.first,
             color: Colors.green,
           ),
-
           const SizedBox(height: 12),
-
           if (obraDetalle.physicalMedium.isNotEmpty)
             InfoCard(
               icono: Icons.palette,
@@ -42,15 +34,12 @@ class ListaInfo extends StatelessWidget {
               valor: obraDetalle.physicalMedium,
               color: Colors.purple,
             ),
-
           if (obraDetalle.physicalMedium.isNotEmpty) const SizedBox(height: 12),
-
           InfoCard(
-            icono: Icons
-                .label_important_rounded, // Ícono duplicado, quizás quieras otro
+            icono: Icons.label_important_rounded,
             texto: 'Etiqueta',
             valor: obraDetalle.sclabelline,
-            color: Colors.orange, // Color duplicado
+            color: Colors.orange,
           ),
         ],
       ),

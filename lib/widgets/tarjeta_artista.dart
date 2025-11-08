@@ -1,64 +1,115 @@
 import 'package:app_demo/screens/screens.dart';
 
 class TarjetaArtista extends StatelessWidget {
-  final String nombre;
-  final String url;
+  final Artista artista;
+  final VoidCallback? onTap;
+  final double alto;
+  final double imageSize;
 
   const TarjetaArtista({
-    super.key,
-    required this.nombre, 
-    required this.url
-  });
+    Key? key,
+    required this.artista,
+    this.onTap,
+    this.alto = 100,
+    this.imageSize = 100,
+  }) : super(key: key);
+
+  String _getFechas() {
+    if (artista.dateOfBirth.isNotEmpty && artista.dateOfDeath.isNotEmpty) {
+      return '${artista.dateOfBirth} - ${artista.dateOfDeath}';
+    } else if (artista.dateOfBirth.isNotEmpty) {
+      return artista.dateOfBirth;
+    } else if (artista.dateOfDeath.isNotEmpty) {
+      return artista.dateOfDeath;
+    }
+    return '';
+  }
 
   @override
   Widget build(BuildContext context) {
-    final handler = Provider.of<PaginaHandler>(context, listen: false);
-
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      height: alto,
+      constraints: BoxConstraints(minHeight: alto),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.cyan[800],
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
           BoxShadow(
-            color: Colors.black,
-            blurRadius: 0.5,
-            spreadRadius: 0.5,
-            offset: Offset.zero,
-          )
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
-      child: Row(
-        children: [
-          ClipOval(
-            child: FadeInImage(
-              placeholder: const AssetImage('assets/images/loading.gif'),
-              image: NetworkImage(url),
-              fit: BoxFit.cover,
-              height: 50.0,
-              width: 50.0,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              handler.artistaSeleccionado = nombre;
-              handler.paginaActual = 2;
-            },
-            child: Container(
-              margin: const EdgeInsets.all(5),
-              child: Text(
-                limitarTexto(nombre),
-                overflow: TextOverflow.ellipsis,
+      child: Material(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.transparent,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              // Imagen del artista
+              Container(
+                width: imageSize,
+                height: imageSize,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey[200],
+                    image: const DecorationImage(
+                      image: AssetImage("assets/images/colosal.jpg"),
+                      fit: BoxFit.cover,
+                    )),
               ),
-            ),
+              const SizedBox(width: 20),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      artista.name,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2D3142),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _getFechas(),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: InkWell(
+                  onTap: onTap,
+                  child: const Icon(
+                    Icons.burst_mode_outlined,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
-  }
-
-  String limitarTexto(String texto) {
-    const int maxNombre = 31;
-    return texto.length > maxNombre ? '${texto.substring(0, maxNombre)}...' : texto;
   }
 }

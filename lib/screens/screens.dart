@@ -11,33 +11,32 @@ export 'package:app_demo/providers/museo_service.dart';
 export 'package:app_demo/providers/pagina_handler.dart';
 export 'package:app_demo/providers/theme_provider.dart';
 export 'package:provider/provider.dart';
-export '../providers/obra_provider.dart';
-export '../providers/obra_detalle_provider.dart';
+export 'package:app_demo/providers/obra_provider.dart';
+export 'package:app_demo/providers/obra_detalle_provider.dart';
+export 'package:app_demo/providers/artista_provider.dart';
 
 //Paquete widgets
 export 'package:app_demo/widgets/navegacion.dart';
 export 'package:app_demo/widgets/drawer_menu.dart';
 export 'package:app_demo/widgets/full_screen.dart';
 export 'package:app_demo/widgets/galeria_card.dart';
-export 'package:app_demo/widgets/tarjeta_artista.dart';
 export 'package:app_demo/widgets/gif_loading.dart';
-export 'package:app_demo/widgets/titulos.dart';
-export 'package:app_demo/widgets/detalles.dart';
-export 'package:app_demo/widgets/descripcion.dart';
-export 'package:app_demo/widgets/paginacion.dart';
+export 'package:app_demo/widgets/paginacion_control.dart';
 export 'package:app_demo/widgets/app_bar.dart';
 export 'package:app_demo/widgets/cabecera.dart';
 export 'package:app_demo/widgets/info_card.dart';
 export 'package:app_demo/widgets/seccion.dart';
 export 'package:app_demo/widgets/extra_info.dart';
 export 'package:app_demo/widgets/titulo_extra.dart';
-export 'package:app_demo/widgets/error_msg.dart';
+export 'package:app_demo/widgets/recurso_no_encontrado.dart';
+export 'package:app_demo/widgets/lista_info.dart';
+export 'package:app_demo/widgets/tarjeta_artista.dart';
 
 //Paquete Screens
 export 'package:app_demo/screens/inicio.dart';
 export 'package:app_demo/screens/artista/galeria_artista.dart';
 export 'package:app_demo/screens/artista/buscador_artista.dart';
-export 'package:app_demo/screens/obras/galeria.dart';
+export 'package:app_demo/screens/obras/galeria_obras_screen.dart';
 export 'package:app_demo/screens/obras/obra_screen.dart';
 
 //Paquete modelos
@@ -52,6 +51,12 @@ export 'package:app_demo/models/paginacion_model.dart';
 //paquete servicio
 export 'package:app_demo/services/obra_detalle_servicio.dart';
 export 'package:app_demo/services/obra_servicio.dart';
+export 'package:app_demo/services/artista_servicio.dart';
 
 //paquete temas
 export 'package:app_demo/theme/theme.dart';
+
+//errores
+export 'package:app_demo/errors/obra_no_encontrada.dart';
+export 'package:app_demo/errors/widget_error_server.dart';
+export 'package:app_demo/errors/server_error.dart';

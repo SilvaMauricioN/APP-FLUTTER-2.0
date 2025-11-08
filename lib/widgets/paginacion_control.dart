@@ -45,10 +45,10 @@ class PaginacionControl extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
-              color: const Color(0xFF43656E),
+              color: Colors.blue.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: const Color(0xFF43656E),
+                color: Colors.blue,
               ),
             ),
             child: Text(
@@ -58,7 +58,7 @@ class PaginacionControl extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.blue,
               ),
             ),
           ),

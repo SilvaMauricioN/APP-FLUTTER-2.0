@@ -8,49 +8,21 @@ class Buscador extends StatefulWidget {
 }
 
 class _BuscadorState extends State<Buscador> {
-  static const String url =
-      'https://cdn3.iconfinder.com/data/icons/people-activities-scenes/64/painting-512.png';
   bool isLoading = true;
   late List<Artista> listaArtistas = [];
   List<Artista> estadoInicial = [];
   @override
   void initState() {
     super.initState();
-    initializeData();
-  }
-
-  //obtengo los datos de la api, y la lista Future la asigno a una lista de Artista
-  Future<void> initializeData() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    final museumService = Provider.of<MuseumService>(context, listen: false);
-    List<Artista> artistasApi = await museumService.getArtistas();
-    //comprueba si el widget todavia esta en el arbol de widdget,
-    if (mounted) {
-      setState(() {
-        listaArtistas = List.from(artistasApi);
-        estadoInicial = listaArtistas;
-        isLoading = false;
-      });
-    }
-  }
-
-  void filtrarBusqueda(String datoIngresado) {
-    List<Artista> resultadosFiltrados = [];
-    for (Artista artista in listaArtistas) {
-      if (artista.name.toLowerCase().contains(datoIngresado.toLowerCase())) {
-        resultadosFiltrados.add(artista);
-      }
-    }
-    setState(() {
-      estadoInicial = resultadosFiltrados;
-    });
+    Future.microtask(() =>
+        Provider.of<ArtistaProvider>(context, listen: false).fetchArtistas());
   }
 
   @override
   Widget build(BuildContext context) {
+    final artistaProvider = context.watch<ArtistaProvider>();
+    final handler = Provider.of<PaginaHandler>(context, listen: false);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -62,7 +34,7 @@ class _BuscadorState extends State<Buscador> {
                 'ARTISTAS',
               ),
             ),
-            buscadorWidget(),
+            buscadorWidget(artistaProvider),
           ],
         ),
         const SizedBox(
@@ -72,24 +44,28 @@ class _BuscadorState extends State<Buscador> {
           child: Stack(
             children: [
               Visibility(
-                visible: !isLoading,
+                visible: !artistaProvider.isLoading,
                 child: GridView.builder(
                   padding: const EdgeInsets.only(top: 5.0),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 1,
-                    mainAxisSpacing: 8.0,
-                    crossAxisSpacing: 8.0,
-                    childAspectRatio: 3.8,
+                    childAspectRatio: 3,
                   ),
-                  itemCount: estadoInicial.length,
+                  itemCount: artistaProvider.listaArtistas.length,
                   itemBuilder: (context, index) {
+                    final artista = artistaProvider.listaArtistas[index];
                     return TarjetaArtista(
-                        nombre: estadoInicial[index].name, url: url);
+                      artista: artista,
+                      onTap: () {
+                        handler.artistaSeleccionado = artista.name;
+                        handler.paginaActual = 2;
+                      },
+                    );
                   },
                 ),
               ),
               Visibility(
-                visible: isLoading,
+                visible: artistaProvider.isLoading,
                 child: const Loading(),
               ),
             ],
@@ -99,14 +75,13 @@ class _BuscadorState extends State<Buscador> {
     );
   }
 
-  Expanded buscadorWidget() {
+  Expanded buscadorWidget(ArtistaProvider provider) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(9.0),
         child: TextField(
-          onChanged: (value) {
-            filtrarBusqueda(value);
-          },
+          onChanged: provider.filtrarBusqueda,
+          style: const TextStyle(color: Colors.black),
           decoration: const InputDecoration(
             labelText: "Buscar",
             hintText: "Buscar",
@@ -115,7 +90,7 @@ class _BuscadorState extends State<Buscador> {
               color: Colors.black,
             ),
           ),
-          enabled: !isLoading,
+          enabled: !provider.isLoading,
         ),
       ),
     );
