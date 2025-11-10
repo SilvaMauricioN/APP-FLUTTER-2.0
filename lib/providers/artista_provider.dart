@@ -7,38 +7,40 @@ class ArtistaProvider with ChangeNotifier {
   List<Artista> _artistasFiltrados = [];
   bool _isLoading = false;
   String? _errorMsg;
+  bool hasError = false;
+  bool get isEmpty => _artistasFiltrados.isEmpty && !isLoading && !hasError;
 
   //getters
   List<Artista> get listaArtistas => _artistasFiltrados;
   bool get isLoading => _isLoading;
   String? get errorMsg => _errorMsg;
 
-  Future<void> fetchArtistas() async {
+  Future<void> getColeccionArtistas() async {
     _isLoading = true;
     _errorMsg = null;
     notifyListeners();
 
     try {
-      final response = await _artistaServicio.getArtistas();
-      if (response.isSuccess) {
-        _listaArtistas = response.data ?? [];
-        _artistasFiltrados = List.from(_listaArtistas);
-
-        if (!response.tieneResultados) {
-          _errorMsg = response.message;
-        }
-      } else {
-        _errorMsg = response.message;
-        _listaArtistas = [];
-        _artistasFiltrados = [];
-      }
-    } catch (e) {
-      _errorMsg = 'Error: $e';
-      _listaArtistas = [];
+      final respone = await _artistaServicio.getColeccionArtistas();
+      _listaArtistas = respone.data ?? [];
+      _artistasFiltrados = List.from(_listaArtistas);
+      _isLoading = false;
+      hasError = false;
+      notifyListeners();
+    } on EntidadNoEncontradaException catch (e) {
+      hasError = true;
+      _isLoading = false;
+      _errorMsg = e.message;
+      notifyListeners();
+    } on ApiException catch (e) {
+      hasError = true;
+      _isLoading = false;
+      _errorMsg = e.message;
+      notifyListeners();
     }
-    _isLoading = false;
-    notifyListeners();
   }
+
+  Future<void> getObrasArtista(String nombreArtista) async {}
 
   void filtrarBusqueda(String query) {
     if (query.isEmpty) {

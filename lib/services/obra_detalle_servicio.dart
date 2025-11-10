@@ -18,10 +18,10 @@ class ObraDetalleServicio {
       if (response.statusCode == 404) {
         final detalle = jsonBody['detalle'] ?? 'Obra no encontrada';
 
-        throw ObraNoEncontradaException(
+        throw EntidadNoEncontradaException(
             "La obra solicitada nose encuentra", detalle);
       }
-      throw ServerException(
+      throw ApiException(
           'Ocurrió un error al cargar la obra. Inténtalo de nuevo.');
     }
 
@@ -29,7 +29,7 @@ class ObraDetalleServicio {
     final data = jsonBody['data'];
 
     if (data == null || data.isEmpty) {
-      throw ObraNoEncontradaException(
+      throw EntidadNoEncontradaException(
           'Obra no encontrada', jsonBody['detale'] ?? 'Sin detalle');
     }
 

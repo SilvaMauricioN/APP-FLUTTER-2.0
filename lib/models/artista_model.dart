@@ -59,4 +59,17 @@ class Artista {
         'nationality': nationality,
         'occupations': occupations
       };
+
+  @override
+  String toString() {
+    // Usamos un String multilinea con interpolación para una mejor lectura
+    return 'Artista {\n'
+        '  ID: $idPrincipalMaker,\n'
+        '  Nombre: $name,\n'
+        '  Nacionalidad: $nationality,\n'
+        '  Nacimiento: $placeOfBirth ($dateOfBirth ),\n'
+        '  Muerte: $placeOfDeath ($dateOfDeath),\n'
+        '  Ocupaciones: ${occupations.join(', ')}\n' // .join(', ') convierte la lista en una sola cadena
+        '}';
+  }
 }

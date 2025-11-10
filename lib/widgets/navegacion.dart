@@ -8,10 +8,10 @@ class Navegacion extends StatefulWidget {
 
 class _NavegacionBar extends State<Navegacion> {
   static const List<Widget> _widgetOptions = <Widget>[
-    Galeria(),
-    Buscador(),
-    GaleriaArtista(),
-    ObraScreen()
+    GaleriaObrasScreen(),
+    ArtistaScreen(),
+    ObrasArtistaScreen(),
+    ObraDetalleScreen()
   ];
 
   @override

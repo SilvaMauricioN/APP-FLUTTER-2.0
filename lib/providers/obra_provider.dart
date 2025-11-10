@@ -17,7 +17,7 @@ class ObraProvider with ChangeNotifier {
   String? get errorMsg => _errorMsg;
   Paginacion? get paginacion => _paginacion;
 
-  Future<void> fetchObras() async {
+  Future<void> getColeccionObras() async {
     _isLoading = true;
     _errorMsg = null;
     notifyListeners();
@@ -49,26 +49,26 @@ class ObraProvider with ChangeNotifier {
   void irAPaginaAnterior() {
     if (paginaActual > 1) {
       paginaActual--;
-      fetchObras();
+      getColeccionObras();
     }
   }
 
   void irAPaginaSiguiente() {
     if (_paginacion == null || _paginacion!.hayPaginaSiguiente) {
       paginaActual++;
-      fetchObras();
+      getColeccionObras();
     }
   }
 
   void irAPagina(int pagina) {
     if (pagina > 0) {
       paginaActual = pagina;
-      fetchObras();
+      getColeccionObras();
     }
   }
 
   void resetPaginacion() {
     paginaActual = 1;
-    fetchObras();
+    getColeccionObras();
   }
 }

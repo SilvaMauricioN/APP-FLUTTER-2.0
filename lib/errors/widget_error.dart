@@ -1,10 +1,9 @@
 import 'package:app_demo/screens/screens.dart';
 
-class WidgetErrorServer extends StatelessWidget {
-  // Ahora el ErrorMsg recibe el objeto 'error' directamente.
+class WidgetError extends StatelessWidget {
   final String errorMsg;
 
-  const WidgetErrorServer({super.key, required this.errorMsg});
+  const WidgetError({super.key, required this.errorMsg});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,6 @@ class WidgetErrorServer extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
-            // El mensaje clave que es amigable
             Text(
               errorMsg,
               style: Theme.of(context).textTheme.bodyMedium,

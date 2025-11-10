@@ -1,18 +1,18 @@
 import '../screens.dart';
 
-class Galeria extends StatelessWidget {
-  const Galeria({super.key});
+class GaleriaObrasScreen extends StatelessWidget {
+  const GaleriaObrasScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     // Cargar obras
     final obraProvider = Provider.of<ObraProvider>(context, listen: false);
-
+    const double padding = 2;
     // Solo cargar si está vacío
     if (obraProvider.obras.isEmpty &&
         !obraProvider.isLoading &&
         obraProvider.errorMsg == null) {
-      Future.microtask(() => obraProvider.fetchObras());
+      Future.microtask(() => obraProvider.getColeccionObras());
     }
 
     return Consumer<ObraProvider>(
@@ -40,8 +40,12 @@ class Galeria extends StatelessWidget {
             // _buildPaginationControls(context, provider),
             Expanded(
               child: GridView.builder(
+                padding: const EdgeInsets.all(padding),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, mainAxisExtent: 300),
+                    crossAxisCount: 2,
+                    mainAxisExtent: 300,
+                    crossAxisSpacing: padding,
+                    mainAxisSpacing: padding),
                 itemCount: listaColeccion.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(

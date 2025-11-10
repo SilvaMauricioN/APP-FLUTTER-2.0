@@ -34,10 +34,10 @@ export 'package:app_demo/widgets/tarjeta_artista.dart';
 
 //Paquete Screens
 export 'package:app_demo/screens/inicio.dart';
-export 'package:app_demo/screens/artista/galeria_artista.dart';
-export 'package:app_demo/screens/artista/buscador_artista.dart';
+export 'package:app_demo/screens/artista/obras_artista_screen.dart';
+export 'package:app_demo/screens/artista/artistas_screen.dart';
 export 'package:app_demo/screens/obras/galeria_obras_screen.dart';
-export 'package:app_demo/screens/obras/obra_screen.dart';
+export 'package:app_demo/screens/obras/obra_detalle_screen.dart';
 
 //Paquete modelos
 export 'package:app_demo/models/obra_model.dart';
@@ -57,6 +57,6 @@ export 'package:app_demo/services/artista_servicio.dart';
 export 'package:app_demo/theme/theme.dart';
 
 //errores
-export 'package:app_demo/errors/obra_no_encontrada.dart';
-export 'package:app_demo/errors/widget_error_server.dart';
-export 'package:app_demo/errors/server_error.dart';
+export 'package:app_demo/errors/entidad_no_encontrada.dart';
+export 'package:app_demo/errors/widget_error.dart';
+export 'package:app_demo/errors/api_exception.dart';

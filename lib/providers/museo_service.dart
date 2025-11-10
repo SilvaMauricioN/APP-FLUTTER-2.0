@@ -28,7 +28,7 @@ class MuseumService with ChangeNotifier {
 
   Future<List<Obra>> getObrasPorArtista(String nombreArtista) async {
     final response = await http.get(
-        Uri.parse('$baseUrl/collecion/Artista?artista=$nombreArtista'),
+        Uri.parse('$baseUrl/coleccion/Artista?nombre=$nombreArtista'),
         headers: defaultHeaders);
 
     if (response.statusCode == 200) {

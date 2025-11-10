@@ -21,7 +21,7 @@ class GaleriaCard extends StatelessWidget {
     final handler = Provider.of<PaginaHandler>(context, listen: false);
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      margin: const EdgeInsets.all(5),
+      // margin: const EdgeInsets.all(5),
       elevation: 4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -1,7 +1,7 @@
 import '../screens.dart';
 
-class ObraScreen extends StatelessWidget {
-  const ObraScreen({super.key});
+class ObraDetalleScreen extends StatelessWidget {
+  const ObraDetalleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +21,19 @@ class ObraScreen extends StatelessWidget {
             return const Loading();
           } else if (snapshot.hasError) {
             final error = snapshot.error;
-            if (error is ObraNoEncontradaException) {
+            if (error is EntidadNoEncontradaException) {
               return RecursoNoEncontrado(
                 mensaje: 'Obra no encontrada',
-                onVolver: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const ObraScreen())),
+                onVolver: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const ObraDetalleScreen())),
               );
             } else {
-              return WidgetErrorServer(errorMsg: error.toString());
+              return WidgetError(errorMsg: error.toString());
             }
           } else if (!snapshot.hasData) {
-            return const WidgetErrorServer(errorMsg: 'No se encontró la obra');
+            return const WidgetError(errorMsg: 'No se encontró la obra');
           }
 
           ObraDetalle obraDetalle = snapshot.data!;

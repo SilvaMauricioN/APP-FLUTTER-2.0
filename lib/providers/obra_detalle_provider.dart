@@ -6,9 +6,9 @@ class ObraDetalleProvider with ChangeNotifier {
   Future<ObraDetalle> getObraPorId(String id) async {
     try {
       return await _obraServicioDetalle.getObraDetallePorId(id);
-    } on ObraNoEncontradaException {
+    } on EntidadNoEncontradaException {
       rethrow;
-    } on ServerException {
+    } on ApiException {
       rethrow;
     } catch (error) {
       throw Exception('Error inesperado: ${error.toString()}');
