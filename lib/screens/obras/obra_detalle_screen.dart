@@ -1,46 +1,54 @@
 import '../screens.dart';
 
-class ObraDetalleScreen extends StatelessWidget {
+class ObraDetalleScreen extends StatefulWidget {
   const ObraDetalleScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<ObraDetalleScreen> createState() => _ObraDetalleState();
+}
+
+class _ObraDetalleState extends State<ObraDetalleScreen> {
+  @override
+  void initState() {
+    super.initState();
     final handler = Provider.of<PaginaHandler>(context, listen: false);
     final obraDetalleProvider =
         Provider.of<ObraDetalleProvider>(context, listen: false);
+
     String idObjeto = handler.numeroObjeto;
+    Future.microtask(() => obraDetalleProvider.getObraDetalle(idObjeto));
+  }
 
-    final Future<ObraDetalle> obraFuture =
-        obraDetalleProvider.getObraPorId(idObjeto);
-
-    return Scaffold(
-      body: FutureBuilder<ObraDetalle>(
-        future: obraFuture, //obraDetalleProvider.getObraPorId(idObjeto),
-        builder: (BuildContext context, AsyncSnapshot<ObraDetalle> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Loading();
-          } else if (snapshot.hasError) {
-            final error = snapshot.error;
-            if (error is EntidadNoEncontradaException) {
-              return RecursoNoEncontrado(
-                mensaje: 'Obra no encontrada',
-                onVolver: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const ObraDetalleScreen())),
-              );
-            } else {
-              return WidgetError(errorMsg: error.toString());
-            }
-          } else if (!snapshot.hasData) {
-            return const WidgetError(errorMsg: 'No se encontró la obra');
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Consumer<ObraDetalleProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoading) {
+          return const Loading();
+        }
+        if (provider.hasError) {
+          final error = provider.errorMsg;
+          final objError = provider.error;
+          if (objError is EntidadNoEncontradaException) {
+            return RecursoNoEncontrado(
+              mensaje: objError.detail,
+              onVolver: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const ObraDetalleScreen())),
+            );
+          } else {
+            return WidgetError(errorMsg: error.toString());
           }
+        }
 
-          ObraDetalle obraDetalle = snapshot.data!;
-          return _contenidoPantalla(context, obraDetalle);
-        },
-      ),
-    );
+        if (provider.listaObraDetalle.isEmpty) {
+          return const WidgetError(errorMsg: 'Error interno');
+        }
+        final List<ObraDetalle> obras = provider.listaObraDetalle;
+        final ObraDetalle obraDetalle = obras[0];
+
+        return _contenidoPantalla(context, obraDetalle);
+      },
+    ));
   }
 
   Widget _contenidoPantalla(BuildContext context, ObraDetalle obraDetalle) {
@@ -108,7 +116,7 @@ class ObraDetalleScreen extends StatelessWidget {
               ExtraInfo(
                   icono: Icons.brush_outlined,
                   titulo: 'Tipo de Objeto',
-                  items: obraDetalle.objectTypes,
+                  items: obraDetalle.objectTypes ?? ['Desconcido'],
                   color: Colors.blue),
 
               // Títulos alternativos

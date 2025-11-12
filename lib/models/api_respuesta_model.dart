@@ -2,7 +2,7 @@ import './paginacion_model.dart';
 
 class ApiResponse<T> {
   final String status;
-  final String message;
+  final String? message;
   final bool? hayResultado;
   final Paginacion? paginacion;
   final List<T>? data;
@@ -22,7 +22,7 @@ class ApiResponse<T> {
   ) {
     return ApiResponse<T>(
       status: json['status'] as String,
-      message: json['message'] as String,
+      message: json['message'] ?? 'sin mensaje',
       hayResultado: json['hayResultado'],
       paginacion: json['paginacion'] != null
           ? Paginacion.fromJson(json['paginacion'])
@@ -32,7 +32,7 @@ class ApiResponse<T> {
               .map((e) => fromJsonT(e as Map<String, dynamic>))
               .toList()
           : null,
-      detalle: json['detalle'],
+      detalle: (json['detalle'] as String?) ?? '',
     );
   }
 

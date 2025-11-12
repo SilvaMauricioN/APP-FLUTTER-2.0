@@ -2,11 +2,11 @@ import '../screens/screens.dart';
 
 class ObraProvider with ChangeNotifier {
   final ObraServicio _obraServicio = ObraServicio();
-
   //variables
   List<Obra> _listaObras = [];
   bool _isLoading = false;
-  String? _errorMsg;
+  Object? _error;
+  bool _hasError = false;
   Paginacion? _paginacion;
   int paginaActual = 1;
   final int _limite = 20;
@@ -14,33 +14,35 @@ class ObraProvider with ChangeNotifier {
   //getters
   List<Obra> get obras => _listaObras;
   bool get isLoading => _isLoading;
-  String? get errorMsg => _errorMsg;
+  bool get hasError => _hasError;
   Paginacion? get paginacion => _paginacion;
+  Object? get error => _error;
 
   Future<void> getColeccionObras() async {
     _isLoading = true;
-    _errorMsg = null;
     notifyListeners();
 
     try {
       final response = await _obraServicio.getColeccionObras(
           pagina: paginaActual, limite: _limite);
-      if (response.isSuccess) {
-        _listaObras = response.data ?? [];
-        _paginacion = response.paginacion;
 
-        if (!response.tieneResultados) {
-          _errorMsg = response.message;
-        }
-      } else {
-        _errorMsg = response.message;
-        _listaObras = [];
-        _paginacion = null;
-      }
-    } catch (e) {
-      _errorMsg = 'Error: $e';
+      _listaObras = response.data ?? [];
+      _paginacion = response.paginacion;
+      // _isLoading = false;
+      _hasError = false;
+      notifyListeners();
+    } on EntidadNoEncontradaException catch (e) {
+      _hasError = true;
+      // _isLoading = false;
+      _error = e;
+      // notifyListeners();
+      rethrow;
+    } on ApiException catch (e) {
       _listaObras = [];
       _paginacion = null;
+      _error = e;
+      // notifyListeners();
+      rethrow;
     }
     _isLoading = false;
     notifyListeners();

@@ -39,9 +39,11 @@ class Artista {
       required this.occupations});
   //permite crear una instancia de la clase Artistas a partir de un mapa (Map) que representa un objeto JSON.
   factory Artista.fromJson(Map<String, dynamic> json) => Artista(
-      idPrincipalMaker: json["IdPrincipalMaker"],
+      idPrincipalMaker: json["IdPrincipalMaker"] as int,
       name: json["name"],
-      placeOfBirth: json['placeOfBirth'],
+      placeOfBirth: (json['placeOfBirth'] as String).isNotEmpty == true
+          ? json['placeOfBirth']
+          : 'Desconocido',
       dateOfBirth: json['dateOfBirth'],
       dateOfDeath: json['dateOfDeath'],
       placeOfDeath: json['placeOfDeath'],

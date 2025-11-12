@@ -10,6 +10,7 @@ class ObraCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final handler = Provider.of<PaginaHandler>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -71,17 +72,34 @@ class ObraCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      obra.title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        height: 1.2,
+                    InkWell(
+                      onTap: () {
+                        handler.numeroObjeto = obra.objectNumber;
+                        handler.paginaActual = 3;
+                      },
+                      child: Text(
+                        obra.title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          height: 1.2,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
+                    // Text(
+                    //   obra.title,
+                    //   style: const TextStyle(
+                    //     color: Colors.white,
+                    //     fontSize: 14,
+                    //     fontWeight: FontWeight.w600,
+                    //     height: 1.2,
+                    //   ),
+                    //   maxLines: 2,
+                    //   overflow: TextOverflow.ellipsis,
+                    // ),
                   ],
                 ),
               ),

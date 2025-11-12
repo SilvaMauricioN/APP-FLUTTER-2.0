@@ -19,7 +19,7 @@ class ObraDetalle {
   String physicalMedium;
   String sclabelline;
   String? historicalDescription;
-  List<String> objectTypes;
+  List<String>? objectTypes;
   List<TituloAlternativo>? otherTitles;
   Fecha? datings;
   Artista? principalOrFirstMaker;
@@ -66,10 +66,14 @@ class ObraDetalle {
         sclabelline: json["sclabelline"],
         historicalDescription:
             json["historicaldescription"] ?? 'Sin Descripción',
-        objectTypes: List<String>.from(json["objectTypes"].map((x) => x)),
-        otherTitles: (json['otherTitles'] as List<dynamic>?)
-            ?.map((e) => TituloAlternativo.fromJson(e as Map<String, dynamic>))
-            .toList(),
+        objectTypes:
+            (json["objectTypes"] as List?)?.map((x) => x as String).toList() ??
+                ['Desconocido'],
+        otherTitles: (json["otherTitles"] as List?)
+                ?.map((e) =>
+                    TituloAlternativo.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            [],
         datings: json["datings"] != null
             ? Fecha.fromJson(json['datings'] as Map<String, dynamic>)
             : null,
@@ -102,6 +106,16 @@ class ObraDetalle {
         'webImage': webImage?.toJson(),
       };
 
+  @override
+  String toString() {
+    // Usamos un String multilinea con interpolación para una mejor lectura
+    return 'Artista {\n'
+        '  object Number: $objectNumber,\n'
+        '  Titulo: $title,\n'
+        '}';
+  }
+
+  String get objectnumber => objectNumber;
   String get url => webImage?.url ?? '';
   String get name => principalOrFirstMaker?.name ?? 'Desconocido';
   String get yearEarly => datings?.yearEarly.toString() ?? 'Desconocido';

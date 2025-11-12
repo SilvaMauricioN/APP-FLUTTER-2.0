@@ -20,7 +20,7 @@ class WidgetError extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              '¡Ups! Un problema ha ocurrido',
+              '¡! No se encontraron resultados',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.black87,
                   ),

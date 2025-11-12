@@ -14,6 +14,7 @@ export 'package:provider/provider.dart';
 export 'package:app_demo/providers/obra_provider.dart';
 export 'package:app_demo/providers/obra_detalle_provider.dart';
 export 'package:app_demo/providers/artista_provider.dart';
+export 'package:app_demo/providers/peticiones_base_provider.dart';
 
 //Paquete widgets
 export 'package:app_demo/widgets/navegacion.dart';
@@ -52,6 +53,7 @@ export 'package:app_demo/models/paginacion_model.dart';
 export 'package:app_demo/services/obra_detalle_servicio.dart';
 export 'package:app_demo/services/obra_servicio.dart';
 export 'package:app_demo/services/artista_servicio.dart';
+export 'package:app_demo/services/api_service.dart';
 
 //paquete temas
 export 'package:app_demo/theme/theme.dart';

@@ -8,9 +8,6 @@ class ArtistaScreen extends StatefulWidget {
 }
 
 class _BuscadorState extends State<ArtistaScreen> {
-  //bool isLoading = true;
-  //late List<Artista> listaArtistas = [];
-  //List<Artista> estadoInicial = [];
   @override
   void initState() {
     super.initState();
@@ -23,100 +20,83 @@ class _BuscadorState extends State<ArtistaScreen> {
     final artistaProvider = context.watch<ArtistaProvider>();
     final handler = Provider.of<PaginaHandler>(context, listen: false);
 
-    return Scaffold(
-        floatingActionButton: Container(
-          margin: const EdgeInsets.only(bottom: 20, right: 12),
-          child: FloatingActionButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            backgroundColor: Colors.blue,
-            elevation: 0,
-            onPressed: () => {},
-            tooltip: 'Agregar Artista',
-            child: const Icon(
-              Icons.person_add_alt,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(9.0),
+              child: Text(
+                'ARTISTAS',
+              ),
             ),
-          ),
+            buscadorWidget(artistaProvider),
+          ],
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(9.0),
-                  child: Text(
-                    'ARTISTAS',
-                  ),
-                ),
-                buscadorWidget(artistaProvider),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Flexible(
-              child: Builder(builder: (context) {
-                if (artistaProvider.isLoading) {
-                  return const Loading();
-                }
+        const SizedBox(
+          height: 10,
+        ),
+        Flexible(
+          child: Builder(builder: (context) {
+            if (artistaProvider.isLoading) {
+              return const Loading();
+            }
 
-                if (artistaProvider.hasError) {
-                  return WidgetError(
-                      errorMsg: artistaProvider.errorMsg ??
-                          'Error al obtener los datos');
-                }
-                if (artistaProvider.listaArtistas.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.person_off,
-                            size: 64, color: Colors.grey),
-                        const SizedBox(height: 16),
-                        Text(
-                          artistaProvider.listaArtistas.isEmpty
-                              ? 'No hay artistas'
-                              : 'No se encontraron artistas',
-                          style:
-                              const TextStyle(fontSize: 16, color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                return Stack(
+            if (artistaProvider.hasError) {
+              return WidgetError(
+                  errorMsg:
+                      artistaProvider.errorMsg ?? 'Error al obtener los datos');
+            }
+            if (artistaProvider.listaArtistas.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Visibility(
-                      visible: !artistaProvider.isLoading,
-                      child: GridView.builder(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          childAspectRatio: 3,
-                        ),
-                        itemCount: artistaProvider.listaArtistas.length,
-                        itemBuilder: (context, index) {
-                          final artista = artistaProvider.listaArtistas[index];
-                          return TarjetaArtista(
-                            artista: artista,
-                            onTap: () {
-                              handler.artistaSeleccionado2 = artista;
-                              handler.artistaSeleccionado = artista.name;
-                              handler.paginaActual = 2;
-                            },
-                          );
-                        },
-                      ),
+                    const Icon(Icons.person_off, size: 64, color: Colors.grey),
+                    const SizedBox(height: 16),
+                    Text(
+                      artistaProvider.listaArtistas.isEmpty
+                          ? 'No hay artistas'
+                          : 'No se encontraron artistas',
+                      style: const TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   ],
-                );
-              }),
-            ),
-          ],
-        ));
+                ),
+              );
+            }
+
+            return Stack(
+              children: [
+                Visibility(
+                  visible: !artistaProvider.isLoading,
+                  child: GridView.builder(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      childAspectRatio: 3,
+                    ),
+                    itemCount: artistaProvider.listaArtistas.length,
+                    itemBuilder: (context, index) {
+                      final artista = artistaProvider.listaArtistas[index];
+                      return TarjetaArtista(
+                        artista: artista,
+                        onTap: () {
+                          handler.artistaSeleccionado2 = artista;
+                          handler.artistaSeleccionado = artista.name;
+                          handler.paginaActual = 2;
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }),
+        ),
+      ],
+    );
   }
 
   Expanded buscadorWidget(ArtistaProvider provider) {

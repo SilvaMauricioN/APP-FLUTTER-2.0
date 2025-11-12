@@ -4,21 +4,31 @@ import 'package:http/http.dart' as http;
 class ObraServicio {
   final String baseUrl = ApiConfig.baseUrl;
   final Map<String, String> headers = ApiConfig.defaultHeaders;
+  final ApiService apiService =
+      ApiService(baseUrl: ApiConfig.baseUrl, headers: ApiConfig.defaultHeaders);
 
   Future<ApiResponse<Obra>> getColeccionObras(
-      {int pagina = 1, int limite = 20}) async {
-    final response = await http.get(
-        Uri.parse('$baseUrl/obras/coleccion?pagina=$pagina&limite=$limite'),
-        headers: headers);
-
-    if (response.statusCode == 200) {
-      return ApiResponse.fromJson(
-        json.decode(response.body),
-        (json) => Obra.fromJson(json),
-      );
-    }
-    throw Exception('Nose puede cargar obras');
+      {int pagina = 1, int limite = 20}) {
+    return apiService.getDatos(
+        endpoint: 'obras/coleccion?pagina=$pagina&limite=$limite',
+        fromJson: (json) => Obra.fromJson(json),
+        errorContext: 'colección de obras');
   }
+
+//   Future<ApiResponse<Obra>> getColeccionObras(
+//       {int pagina = 1, int limite = 20}) async {
+//     final response = await http.get(
+//         Uri.parse('$baseUrl/obras/coleccion?pagina=$pagina&limite=$limite'),
+//         headers: headers);
+//
+//     if (response.statusCode == 200) {
+//       return ApiResponse.fromJson(
+//         json.decode(response.body),
+//         (json) => Obra.fromJson(json),
+//       );
+//     }
+//     throw Exception('Nose puede cargar obras');
+//   }
 
   // GET - Lista de obras
 //   Future<List<Obra>> getColeccionObras({int page = 1, int limit = 20}) async {

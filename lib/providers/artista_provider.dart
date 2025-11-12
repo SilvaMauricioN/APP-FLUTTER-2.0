@@ -1,46 +1,95 @@
 import '../screens/screens.dart';
 
-class ArtistaProvider with ChangeNotifier {
+class ArtistaProvider extends PeticionesBaseProvider {
   final ArtistaServicio _artistaServicio = ArtistaServicio();
   //variables
   List<Artista> _listaArtistas = [];
   List<Artista> _artistasFiltrados = [];
-  bool _isLoading = false;
-  String? _errorMsg;
-  bool hasError = false;
+  List<Obra> _listaObrasDeArtista = [];
   bool get isEmpty => _artistasFiltrados.isEmpty && !isLoading && !hasError;
 
   //getters
   List<Artista> get listaArtistas => _artistasFiltrados;
-  bool get isLoading => _isLoading;
-  String? get errorMsg => _errorMsg;
+  List<Obra> get listaObrasDeArtista => _listaObrasDeArtista;
 
   Future<void> getColeccionArtistas() async {
-    _isLoading = true;
-    _errorMsg = null;
-    notifyListeners();
-
-    try {
-      final respone = await _artistaServicio.getColeccionArtistas();
-      _listaArtistas = respone.data ?? [];
-      _artistasFiltrados = List.from(_listaArtistas);
-      _isLoading = false;
-      hasError = false;
-      notifyListeners();
-    } on EntidadNoEncontradaException catch (e) {
-      hasError = true;
-      _isLoading = false;
-      _errorMsg = e.message;
-      notifyListeners();
-    } on ApiException catch (e) {
-      hasError = true;
-      _isLoading = false;
-      _errorMsg = e.message;
-      notifyListeners();
-    }
+    await getRequest<List<Artista>>(
+      reqFuncion: () async {
+        final resp = await _artistaServicio.getColeccionArtistas();
+        return resp.data ?? [];
+      },
+      enResExito: (data) {
+        _listaArtistas = data;
+        _artistasFiltrados = List.from(data);
+      },
+    );
   }
 
-  Future<void> getObrasArtista(String nombreArtista) async {}
+  Future<void> getObrasArtistaPorNombre(String nombreArtista) async {
+    await getRequest<List<Obra>>(
+      reqFuncion: () async {
+        final resp =
+            await _artistaServicio.getObrasArtistaPorNombre(nombreArtista);
+        return resp.data ?? [];
+      },
+      enResExito: (data) {
+        _listaObrasDeArtista = data;
+        //_artistasFiltrados = List.from(data);
+      },
+    );
+  }
+
+//
+//
+//   Future<void> getColeccionArtistas() async {
+//     _isLoading = true;
+//     _errorMsg = null;
+//     notifyListeners();
+//
+//     try {
+//       final respone = await _artistaServicio.getColeccionArtistas();
+//       _listaArtistas = respone.data ?? [];
+//       _artistasFiltrados = List.from(_listaArtistas);
+//       _isLoading = false;
+//       _hasError = false;
+//       notifyListeners();
+//     } on EntidadNoEncontradaException catch (e) {
+//       _hasError = true;
+//       _isLoading = false;
+//       _errorMsg = e.message;
+//       notifyListeners();
+//     } on ApiException catch (e) {
+//       _hasError = true;
+//       _isLoading = false;
+//       _errorMsg = e.message;
+//       notifyListeners();
+//     }
+//   }
+
+//   Future<void> getObrasArtistaPorNombre(String nombreArtista) async {
+//     _isLoading = true;
+//     _errorMsg = null;
+//     notifyListeners();
+//
+//     try {
+//       final respone =
+//           await _artistaServicio.getObrasArtistaPorNombre(nombreArtista);
+//       _listaObrasDeArtista = respone.data ?? [];
+//       _isLoading = false;
+//       _hasError = false;
+//       notifyListeners();
+//     } on EntidadNoEncontradaException catch (e) {
+//       _hasError = true;
+//       _isLoading = false;
+//       _errorMsg = e.message;
+//       notifyListeners();
+//     } on ApiException catch (e) {
+//       _hasError = true;
+//       _isLoading = false;
+//       _errorMsg = e.message;
+//       notifyListeners();
+//     }
+//   }
 
   void filtrarBusqueda(String query) {
     if (query.isEmpty) {

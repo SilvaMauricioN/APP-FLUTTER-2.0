@@ -8,10 +8,9 @@ class GaleriaObrasScreen extends StatelessWidget {
     // Cargar obras
     final obraProvider = Provider.of<ObraProvider>(context, listen: false);
     const double padding = 2;
-    // Solo cargar si está vacío
     if (obraProvider.obras.isEmpty &&
         !obraProvider.isLoading &&
-        obraProvider.errorMsg == null) {
+        obraProvider.hasError == false) {
       Future.microtask(() => obraProvider.getColeccionObras());
     }
 
@@ -21,19 +20,21 @@ class GaleriaObrasScreen extends StatelessWidget {
           return const Loading();
         }
 
-        if (provider.errorMsg != null) {
-          return Center(
-            child: Text('Error: ${provider.errorMsg}'),
-          );
+        if (provider.hasError) {
+          final objError = provider.error;
+          if (objError is EntidadNoEncontradaException) {
+            return RecursoNoEncontrado(
+              mensaje: objError.detail,
+            );
+          } else {
+            return WidgetError(errorMsg: objError.toString());
+          }
         }
 
+        if (provider.obras.isEmpty) {
+          return const WidgetError(errorMsg: 'Error interno');
+        }
         List<Obra> listaColeccion = provider.obras;
-
-        if (listaColeccion.isEmpty) {
-          return const Center(
-            child: Text('No hay obras disponibles'),
-          );
-        }
 
         return Column(
           children: [
