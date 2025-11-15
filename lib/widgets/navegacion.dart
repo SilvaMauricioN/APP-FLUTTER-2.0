@@ -11,7 +11,8 @@ class _NavegacionBar extends State<Navegacion> {
     GaleriaObrasScreen(),
     ArtistaScreen(),
     ObrasArtistaScreen(),
-    ObraDetalleScreen()
+    ObraDetalleScreen(),
+    ArtistaFormScreen(),
   ];
 
   @override
@@ -66,6 +67,24 @@ class _NavegacionBar extends State<Navegacion> {
               Icons.image,
             ),
             label: 'Cuadro',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person_add_alt,
+            ),
+            activeIcon: Icon(
+              Icons.person_add_alt,
+            ),
+            label: 'Artista +',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_photo_alternate_outlined,
+            ),
+            activeIcon: Icon(
+              Icons.add_photo_alternate_outlined,
+            ),
+            label: 'Obra +',
           ),
         ],
         currentIndex: page.paginaActual,

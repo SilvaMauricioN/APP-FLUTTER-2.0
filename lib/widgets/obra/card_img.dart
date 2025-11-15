@@ -1,9 +1,9 @@
 import 'package:app_demo/screens/screens.dart';
 
-class ObraCard extends StatelessWidget {
+class ObraCardImg extends StatelessWidget {
   final Obra obra;
 
-  const ObraCard({
+  const ObraCardImg({
     Key? key,
     required this.obra,
   }) : super(key: key);

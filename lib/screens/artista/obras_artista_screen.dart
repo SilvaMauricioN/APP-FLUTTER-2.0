@@ -1,6 +1,4 @@
 import 'package:app_demo/screens/screens.dart';
-import 'package:app_demo/widgets/tarjeta_artista2.dart';
-import 'package:app_demo/widgets/card_img.dart';
 
 class ObrasArtistaScreen extends StatefulWidget {
   const ObrasArtistaScreen({super.key});
@@ -44,13 +42,10 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Color(0xFF1a1a1a)),
-              onPressed: () => {},
-            ),
             title: const Text(
               'Artista',
               style: TextStyle(
+                fontSize: 20,
                 color: Color(0xFF1a1a1a),
                 fontWeight: FontWeight.w600,
               ),
@@ -74,11 +69,11 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
             slivers: [
               // Widget del Artista - Se desplaza con el scroll
               SliverToBoxAdapter(
-                child: ArtistaCard(artista: artista),
+                child: TarjetaArtistaDetalle(artista: artista),
               ),
 
               SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 sliver: SliverGrid(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -99,7 +94,7 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
                         },
                         child: Hero(
                           tag: 'imageHero$index',
-                          child: ObraCard(obra: listaObras[index]),
+                          child: ObraCardImg(obra: listaObras[index]),
                         ),
                       );
                       //ObraCard(obra: listaObras[index]);

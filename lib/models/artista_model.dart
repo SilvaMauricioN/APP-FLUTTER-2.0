@@ -1,5 +1,5 @@
 import '../screens/screens.dart';
-import 'dart:convert';
+//import 'dart:convert';
 
 //De json a lista objeto Artistas
 List<Artista> artistasFromJson(String str) {
@@ -19,59 +19,103 @@ String artistasToJson(List<Artista> data) {
 }
 
 class Artista {
-  int idPrincipalMaker;
+  int? idPrincipalMaker;
   String name;
-  String placeOfBirth;
-  String dateOfBirth;
-  String dateOfDeath;
-  String placeOfDeath;
-  String nationality;
-  List<String> occupations;
+  String? placeOfBirth;
+  String? dateOfBirth;
+  String? dateOfDeath;
+  String? placeOfDeath;
+  String? nationality;
+  List<Ocupacion> occupations;
 
-  Artista(
-      {required this.idPrincipalMaker,
-      required this.name,
-      required this.placeOfBirth,
-      required this.dateOfBirth,
-      required this.dateOfDeath,
-      required this.placeOfDeath,
-      required this.nationality,
-      required this.occupations});
-  //permite crear una instancia de la clase Artistas a partir de un mapa (Map) que representa un objeto JSON.
+  Artista({
+    this.idPrincipalMaker,
+    required this.name,
+    this.placeOfBirth,
+    this.dateOfBirth,
+    this.dateOfDeath,
+    this.placeOfDeath,
+    this.nationality,
+    required this.occupations, //this.occupations = const []
+  });
+
+  Artista.nuevo({
+    required this.name,
+    this.placeOfBirth,
+    this.dateOfBirth,
+    this.dateOfDeath,
+    this.placeOfDeath,
+    this.nationality,
+    required this.occupations,
+  });
+  //get
   factory Artista.fromJson(Map<String, dynamic> json) => Artista(
       idPrincipalMaker: json["IdPrincipalMaker"] as int,
-      name: json["name"],
+      name: json["name"] as String,
       placeOfBirth: (json['placeOfBirth'] as String).isNotEmpty == true
           ? json['placeOfBirth']
           : 'Desconocido',
-      dateOfBirth: json['dateOfBirth'],
-      dateOfDeath: json['dateOfDeath'],
-      placeOfDeath: json['placeOfDeath'],
-      nationality: json['nationality'],
-      occupations: List<String>.from(json["occupations"] ?? []));
+      dateOfBirth: json['dateOfBirth'] as String,
+      dateOfDeath: json['dateOfDeath'] as String,
+      placeOfDeath: json['placeOfDeath'] as String,
+      nationality: json['nationality'] as String,
+      occupations: _parseOcupacion(json["occupations"]));
 
-  //convierte una instancia de la clase Artistas en un mapa (Map) que puede ser fácilmente convertido a formato JSON.
-  Map<String, dynamic> toJson() => {
-        'IdPrincipalMaker': idPrincipalMaker,
-        'name': name,
-        'placeOfBirth': placeOfBirth,
-        'dateOfBirth': dateOfBirth,
-        'dateOfDeath': dateOfDeath,
-        'placeOfDeath': placeOfDeath,
-        'nationality': nationality,
-        'occupations': occupations
-      };
+  //Respuesta POST
+  factory Artista.fromPostResponseJson(Map<String, dynamic> json) {
+    return Artista(
+      idPrincipalMaker: json['idprincipalmaker'],
+      name: json['name'],
+      placeOfBirth: json['placeofbirth'],
+      dateOfBirth: json['dateofbirth'],
+      dateOfDeath: json['dateofdeath'],
+      placeOfDeath: json['placeofdeath'],
+      nationality: json['nationality'],
+      occupations: Artista._parseOcupacion(json['occupations']),
+    );
+  }
+
+  //  POST
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'placeOfBirth': placeOfBirth,
+      'dateOfBirth': dateOfBirth,
+      'dateOfDeath': dateOfDeath,
+      'placeOfDeath': placeOfDeath,
+      'nationality': nationality,
+      'occupations':
+          occupations.map((o) => o.id).where((id) => id != null).toList(),
+    };
+  }
+
+  static List<Ocupacion> _parseOcupacion(dynamic value) {
+    if (value == null) return [];
+
+    // Si es lista de objetos
+    if (value is List && value.isNotEmpty && value.first is Map) {
+      return value
+          .map((e) => Ocupacion.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+
+    // Si es lista de strings
+    if (value is List && value.isNotEmpty && value.first is String) {
+      return value.map((e) => Ocupacion.fromString(e)).toList();
+    }
+
+    return [];
+  }
 
   @override
   String toString() {
-    // Usamos un String multilinea con interpolación para una mejor lectura
     return 'Artista {\n'
         '  ID: $idPrincipalMaker,\n'
         '  Nombre: $name,\n'
         '  Nacionalidad: $nationality,\n'
         '  Nacimiento: $placeOfBirth ($dateOfBirth ),\n'
         '  Muerte: $placeOfDeath ($dateOfDeath),\n'
-        '  Ocupaciones: ${occupations.join(', ')}\n' // .join(', ') convierte la lista en una sola cadena
+        '  Ocupaciones: $occupations\n'
         '}';
   }
 }

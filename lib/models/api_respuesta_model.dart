@@ -6,6 +6,7 @@ class ApiResponse<T> {
   final bool? hayResultado;
   final Paginacion? paginacion;
   final List<T>? data;
+  final T? item;
   final String? detalle;
 
   ApiResponse(
@@ -14,6 +15,7 @@ class ApiResponse<T> {
       this.hayResultado,
       this.paginacion,
       this.data,
+      this.item,
       this.detalle});
 
   factory ApiResponse.fromJson(
@@ -33,6 +35,24 @@ class ApiResponse<T> {
               .toList()
           : null,
       detalle: (json['detalle'] as String?) ?? '',
+    );
+  }
+
+  factory ApiResponse.fromJsonSingle(
+    Map<String, dynamic> json,
+    T Function(Map<String, dynamic>) fromJsonT,
+  ) {
+    return ApiResponse<T>(
+      status: json['status'] ?? '',
+      message: json['mensaje'] ?? json['message'],
+      hayResultado: json['hayResultado'],
+      paginacion: json['paginacion'] != null
+          ? Paginacion.fromJson(json['paginacion'])
+          : null,
+      item: json['data'] != null
+          ? fromJsonT(json['data'] as Map<String, dynamic>)
+          : null,
+      detalle: json['detalle'] ?? 'Sin detalle',
     );
   }
 

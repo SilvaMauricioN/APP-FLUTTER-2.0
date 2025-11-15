@@ -1,9 +1,9 @@
 import 'package:app_demo/screens/screens.dart';
 
-class ArtistaCard extends StatelessWidget {
+class TarjetaArtistaDetalle extends StatelessWidget {
   final Artista artista;
 
-  const ArtistaCard({
+  const TarjetaArtistaDetalle({
     Key? key,
     required this.artista,
   }) : super(key: key);
@@ -12,8 +12,8 @@ class ArtistaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -37,20 +37,20 @@ class ArtistaCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          if (artista.nationality.isNotEmpty)
+          if (artista.nationality != null)
             Text(
-              artista.nationality,
+              artista.nationality!,
               style: const TextStyle(
                 fontSize: 16,
                 color: Color(0xFF666666),
                 fontWeight: FontWeight.w500,
               ),
             ),
-          if (artista.dateOfBirth.isNotEmpty || artista.dateOfDeath.isNotEmpty)
+          if (artista.dateOfBirth != null || artista.dateOfDeath != null)
             Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
-                '${artista.dateOfBirth}${artista.dateOfDeath.isNotEmpty ? ' - ${artista.dateOfDeath}' : ''}',
+                '${artista.dateOfBirth}${artista.dateOfDeath != null ? ' - ${artista.dateOfDeath}' : ''}',
                 style: const TextStyle(
                   fontSize: 14,
                   color: Color(0xFF999999),
@@ -71,7 +71,7 @@ class ArtistaCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
-                    occupation,
+                    occupation.name,
                     style: const TextStyle(
                       fontSize: 13,
                       color: Color(0xFF333333),

@@ -5,14 +5,17 @@ class PaginaHandler extends ChangeNotifier {
   String _artistaSeleccionado = 'Rembrandt van Rijn';
   String _numeroObjeto = 'SK-C-5';
   Artista _artistaSeleccionado2 = Artista(
-      idPrincipalMaker: 1,
-      name: "Rembrandt van Rijn",
-      placeOfBirth: "Leiden",
-      dateOfBirth: "1606-07-15",
-      dateOfDeath: "1669-10-08",
-      placeOfDeath: "Ámsterdam",
-      nationality: "Holandés del Norte",
-      occupations: ["dibujante", "grabador", "pintor"]);
+    idPrincipalMaker: 1,
+    name: "Rembrandt van Rijn",
+    placeOfBirth: "Leiden",
+    dateOfBirth: "1606-07-15",
+    dateOfDeath: "1669-10-08",
+    placeOfDeath: "Ámsterdam",
+    nationality: "Holandés del Norte",
+    occupations: ["dibujante", "grabador", "pintor"]
+        .map((e) => Ocupacion.fromString(e))
+        .toList(),
+  );
 
   int get paginaActual => _paginaActual;
   String get artistaSeleccionado => _artistaSeleccionado;

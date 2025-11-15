@@ -9,6 +9,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => ObraProvider()),
       ChangeNotifierProvider(create: (context) => ArtistaProvider()),
       ChangeNotifierProvider(create: (context) => ObraDetalleProvider()),
+      ChangeNotifierProvider(create: (context) => OcupacionProvider()),
       ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(isDarkMode: false)),
     ],

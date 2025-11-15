@@ -15,12 +15,12 @@ class TarjetaArtista extends StatelessWidget {
   }) : super(key: key);
 
   String _getFechas() {
-    if (artista.dateOfBirth.isNotEmpty && artista.dateOfDeath.isNotEmpty) {
+    if (artista.dateOfBirth != null && artista.dateOfDeath != null) {
       return '${artista.dateOfBirth} - ${artista.dateOfDeath}';
-    } else if (artista.dateOfBirth.isNotEmpty) {
-      return artista.dateOfBirth;
-    } else if (artista.dateOfDeath.isNotEmpty) {
-      return artista.dateOfDeath;
+    } else if (artista.dateOfBirth != null) {
+      return artista.dateOfBirth!;
+    } else if (artista.dateOfDeath != null) {
+      return artista.dateOfDeath!;
     }
     return '';
   }

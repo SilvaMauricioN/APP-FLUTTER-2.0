@@ -1,3 +1,5 @@
+import 'package:app_demo/errors/recurso_existente.dart';
+
 import '../screens/screens.dart';
 
 class ArtistaProvider extends PeticionesBaseProvider {
@@ -34,62 +36,50 @@ class ArtistaProvider extends PeticionesBaseProvider {
       },
       enResExito: (data) {
         _listaObrasDeArtista = data;
-        //_artistasFiltrados = List.from(data);
       },
     );
   }
 
-//
-//
-//   Future<void> getColeccionArtistas() async {
-//     _isLoading = true;
-//     _errorMsg = null;
-//     notifyListeners();
-//
-//     try {
-//       final respone = await _artistaServicio.getColeccionArtistas();
-//       _listaArtistas = respone.data ?? [];
-//       _artistasFiltrados = List.from(_listaArtistas);
-//       _isLoading = false;
-//       _hasError = false;
-//       notifyListeners();
-//     } on EntidadNoEncontradaException catch (e) {
-//       _hasError = true;
-//       _isLoading = false;
-//       _errorMsg = e.message;
-//       notifyListeners();
-//     } on ApiException catch (e) {
-//       _hasError = true;
-//       _isLoading = false;
-//       _errorMsg = e.message;
-//       notifyListeners();
-//     }
-//   }
+  bool _isLoading = false;
+  String? _errorMessage;
+  String? _successMessage;
 
-//   Future<void> getObrasArtistaPorNombre(String nombreArtista) async {
-//     _isLoading = true;
-//     _errorMsg = null;
-//     notifyListeners();
-//
-//     try {
-//       final respone =
-//           await _artistaServicio.getObrasArtistaPorNombre(nombreArtista);
-//       _listaObrasDeArtista = respone.data ?? [];
-//       _isLoading = false;
-//       _hasError = false;
-//       notifyListeners();
-//     } on EntidadNoEncontradaException catch (e) {
-//       _hasError = true;
-//       _isLoading = false;
-//       _errorMsg = e.message;
-//       notifyListeners();
-//     } on ApiException catch (e) {
-//       _hasError = true;
-//       _isLoading = false;
-//       _errorMsg = e.message;
-//       notifyListeners();
-//     }
-//   }
+  @override
+  bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
+  String? get successMessage => _successMessage;
+
+  Future<bool> postArtista(Artista artista) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final resultado = await _artistaServicio.postArtista(artista);
+      _isLoading = false;
+      if (resultado.isSuccess) {
+        _successMessage = resultado.message;
+        notifyListeners();
+        return true;
+      }
+      _errorMessage = resultado.message;
+      notifyListeners();
+      return false;
+    } on RecursoExistenteException catch (e) {
+      _errorMessage = e.message;
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    } on ApiException catch (e) {
+      _errorMessage = e.message;
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _errorMessage = 'Error inesperado: ${e.toString()}';
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
 
   void filtrarBusqueda(String query) {
     if (query.isEmpty) {
