@@ -30,9 +30,9 @@ class _SelectorOcupacionState extends State<SelectorOcupacion> {
             // Dropdown con botón agregar
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.blue.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(color: Colors.blue.withOpacity(0.1)),
               ),
               child: Row(
                 children: [
@@ -147,8 +147,8 @@ class _SelectorOcupacionState extends State<SelectorOcupacion> {
                       children: [
                         Text(
                           ocupacion.name,
-                          style: TextStyle(
-                            color: Colors.blue.shade900,
+                          style: const TextStyle(
+                            color: Colors.black,
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),

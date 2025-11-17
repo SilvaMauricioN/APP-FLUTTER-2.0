@@ -66,30 +66,25 @@ class CampoFecha extends StatelessWidget {
           ],
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(
-              color: Colors.grey.shade400,
+            hintStyle: const TextStyle(
               fontSize: 15,
-              fontWeight: FontWeight.normal,
             ),
             filled: true,
-            fillColor: enabled ? Colors.white : Colors.grey.shade100,
+            fillColor:
+                enabled ? Colors.blue.withOpacity(0.1) : Colors.grey.shade100,
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey.shade200),
+//borderSide: BorderSide(color: Colors.grey.shade200),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey.shade200),
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey.shade200),
+              borderSide: BorderSide(color: Colors.blue.withOpacity(0.1)),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.black87, width: 1.5),
+              borderSide: const BorderSide(color: Colors.blue, width: 1.5),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
