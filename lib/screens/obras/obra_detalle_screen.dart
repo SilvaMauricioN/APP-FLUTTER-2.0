@@ -23,7 +23,7 @@ class _ObraDetalleState extends State<ObraDetalleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(body: Consumer<ObraDetalleProvider>(
       builder: (context, provider, child) {
-        if (provider.isLoading) {
+        if (provider.isLoadingPeticionBase) {
           return const Loading();
         }
         if (provider.hasError) {

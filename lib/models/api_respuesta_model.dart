@@ -52,7 +52,7 @@ class ApiResponse<T> {
       item: json['data'] != null
           ? fromJsonT(json['data'] as Map<String, dynamic>)
           : null,
-      detalle: json['detalle'] ?? 'Sin detalle',
+      detalle: json['detalle'] ?? ' ',
     );
   }
 

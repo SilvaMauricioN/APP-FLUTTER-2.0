@@ -6,10 +6,18 @@ abstract class PeticionesBaseProvider extends ChangeNotifier {
   String? _errorMsg;
   Object? _error;
 
-  bool get isLoading => _isLoading;
+  bool get isLoadingPeticionBase => _isLoading;
   bool get hasError => _hasError;
   String? get errorMsg => _errorMsg;
   Object? get error => _error;
+
+  void limpiarEstado() {
+    _isLoading = false;
+    _hasError = false;
+    _errorMsg = null;
+    _error = null;
+    notifyListeners();
+  }
 
   Future<void> getRequest<T>({
     required Future<T> Function() reqFuncion,
@@ -21,6 +29,8 @@ abstract class PeticionesBaseProvider extends ChangeNotifier {
 
     try {
       final data = await reqFuncion();
+      //_isLoading = true;
+
       enResExito(data);
       _isLoading = false;
       _hasError = false;

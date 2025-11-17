@@ -9,10 +9,18 @@ class ArtistaProvider extends PeticionesBaseProvider {
   List<Artista> _artistasFiltrados = [];
   List<Obra> _listaObrasDeArtista = [];
   bool get isEmpty => _artistasFiltrados.isEmpty && !isLoading && !hasError;
+  // final bool _isLoading2 = false;
 
   //getters
   List<Artista> get listaArtistas => _artistasFiltrados;
   List<Obra> get listaObrasDeArtista => _listaObrasDeArtista;
+  //@override
+  //bool get isLoadings2 => _isLoading2;
+
+  void limpiarTodo() {
+    _listaObrasDeArtista = [];
+    limpiarEstado(); // Del provider base
+  }
 
   Future<void> getColeccionArtistas() async {
     await getRequest<List<Artista>>(
@@ -28,6 +36,8 @@ class ArtistaProvider extends PeticionesBaseProvider {
   }
 
   Future<void> getObrasArtistaPorNombre(String nombreArtista) async {
+    _listaObrasDeArtista = [];
+
     await getRequest<List<Obra>>(
       reqFuncion: () async {
         final resp =
@@ -44,7 +54,6 @@ class ArtistaProvider extends PeticionesBaseProvider {
   String? _errorMessage;
   String? _successMessage;
 
-  @override
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   String? get successMessage => _successMessage;

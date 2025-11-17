@@ -17,6 +17,8 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
         Provider.of<ArtistaProvider>(context, listen: false);
 
     final artista = handler.artistaSeleccionado2;
+
+    providerArtista.limpiarEstado();
     Future.microtask(
       () => providerArtista.getObrasArtistaPorNombre(artista.name),
     );
@@ -24,17 +26,28 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final handler = Provider.of<PaginaHandler>(context, listen: false);
+    final handler = context.watch<PaginaHandler>();
+    // final providerArtista =
+    //     Provider.of<ArtistaProvider>(context, listen: false);
     Artista artista = handler.artistaSeleccionado2;
+    // if (providerArtista.isLoadingBase) {
+    //   debugPrint('loading artista screen ${providerArtista.isLoading}');
+    //   return const Loading();
+    // }
 
     return Consumer<ArtistaProvider>(
       builder: (context, provider, child) {
-        if (provider.isLoading) {
+        if (provider.isLoadingPeticionBase) {
           return const Loading();
         }
+
         if (provider.hasError) {
-          return WidgetError(errorMsg: provider.errorMsg!);
+          final objError = provider.error;
+          if (objError is! EntidadNoEncontradaException) {
+            return WidgetError(errorMsg: provider.errorMsg!);
+          }
         }
+
         List<Obra> listaObras = provider.listaObrasDeArtista;
 
         return Scaffold(
@@ -50,6 +63,7 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            actions: const [],
           ),
           floatingActionButton: Container(
             margin: const EdgeInsets.only(bottom: 20, right: 12),
@@ -61,7 +75,7 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
               onPressed: () => {},
               tooltip: 'Agregar Artista',
               child: const Icon(
-                Icons.person_add_alt,
+                Icons.edit_square,
               ),
             ),
           ),
@@ -71,38 +85,41 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
               SliverToBoxAdapter(
                 child: TarjetaArtistaDetalle(artista: artista),
               ),
-
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                sliver: SliverGrid(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.75,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => FullScreen(
-                                      url: listaObras[index].webImage.url,
-                                      context: context)));
-                        },
-                        child: Hero(
-                          tag: 'imageHero$index',
-                          child: ObraCardImg(obra: listaObras[index]),
-                        ),
-                      );
-                      //ObraCard(obra: listaObras[index]);
-                    },
-                    childCount: listaObras.length,
+              if (listaObras.isEmpty)
+                ArtistaSinObras(name: artista.name)
+              else
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  sliver: SliverGrid(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.75,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => FullScreen(
+                                        url: listaObras[index].webImage.url,
+                                        context: context)));
+                          },
+                          child: Hero(
+                            tag: 'imageHero$index',
+                            child: ObraCardImg(obra: listaObras[index]),
+                          ),
+                        );
+                        //ObraCard(obra: listaObras[index]);
+                      },
+                      childCount: listaObras.length,
+                    ),
                   ),
                 ),
-              ),
 
               const SliverToBoxAdapter(
                 child: SizedBox(height: 24),

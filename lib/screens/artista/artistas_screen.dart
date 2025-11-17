@@ -39,10 +39,9 @@ class _BuscadorState extends State<ArtistaScreen> {
         ),
         Flexible(
           child: Builder(builder: (context) {
-            if (artistaProvider.isLoading) {
+            if (artistaProvider.isLoadingPeticionBase) {
               return const Loading();
             }
-
             if (artistaProvider.hasError) {
               return WidgetError(
                   errorMsg:

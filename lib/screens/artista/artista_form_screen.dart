@@ -1,4 +1,5 @@
 import 'package:app_demo/screens/screens.dart';
+import 'package:app_demo/widgets/form/campo_fecha.dart';
 import 'package:app_demo/widgets/form/campo_texto.dart';
 
 class ArtistaFormScreen extends StatefulWidget {
@@ -51,8 +52,6 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
 
     if (ocupacionProvider.ocupacionesElegidas.isEmpty) {
       MensajeApi.showError(context, 'Selecciona al menos una ocupación');
-
-      // _showMessage('Selecciona al menos una ocupación', true);
       return;
     }
 
@@ -65,9 +64,10 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
         nationality: _nationalityController.text.trim(),
         occupations: ocupacionProvider.getSelectedOcupacionesAsObjects());
 
+    debugPrint('Artista: ${artista.toString()}');
     final success = await artistaProvider.postArtista(artista);
     if (!mounted) return;
-
+    //success
     if (success) {
       ocupacionProvider.clearSelectedOcupaciones();
       MensajeApi.showSuccess(context, 'Artista creado correctamente');
@@ -103,7 +103,7 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
       body: Consumer2<OcupacionProvider, ArtistaProvider>(
         builder: (context, ocupacionProvider, artistaProvider, child) {
           // Estado de carga de ocupaciones
-          if (ocupacionProvider.isLoading) {
+          if (ocupacionProvider.isLoadingPeticionBase) {
             return const Center(child: CircularProgressIndicator());
           }
 
@@ -152,20 +152,17 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: CustomCampoTexto(
-                            controller: _dateOfBirthController,
-                            label: 'Fecha Nac.',
-                            hint: '1606',
-                          ),
-                        ),
+                            child: CampoFecha(
+                                controller: _dateOfBirthController,
+                                label: 'Fecha Nac.',
+                                hint: '1606-12-23')),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: CustomCampoTexto(
-                            controller: _dateOfDeathController,
-                            label: 'Fecha Fall.',
-                            hint: '1669',
-                          ),
-                        ),
+                            child: CampoFecha(
+                                controller: _dateOfDeathController,
+                                label: 'Fecha Fall.',
+                                hint: '1669-11-24 o vacio',
+                                isOptional: true)),
                       ],
                     ),
                     const SizedBox(height: 24),

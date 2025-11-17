@@ -37,7 +37,8 @@ export 'package:app_demo/widgets/artista/tarjeta_artista_detalle.dart';
 export 'package:app_demo/widgets/obra/card_img.dart';
 export 'package:app_demo/widgets/form/selector_ocupacion.dart';
 export 'package:app_demo/widgets/resApi/mensaje_api.dart';
-
+export 'package:app_demo/widgets/form/formatear_fecha.dart';
+export 'package:app_demo/widgets/obra/msg_artista_sin_obra.dart';
 //Paquete Screens
 export 'package:app_demo/screens/inicio.dart';
 export 'package:app_demo/screens/artista/obras_artista_screen.dart';

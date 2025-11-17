@@ -112,10 +112,12 @@ class Artista {
     return 'Artista {\n'
         '  ID: $idPrincipalMaker,\n'
         '  Nombre: $name,\n'
+        '  Lugar De Nacimiento: $placeOfBirth,\n'
+        '  Fecha De Nacimiento: ($dateOfBirth),\n'
+        '  Lugar De Muerte: $placeOfDeath,\n'
+        '  Fecha De Muerte: ($dateOfDeath),\n'
         '  Nacionalidad: $nationality,\n'
-        '  Nacimiento: $placeOfBirth ($dateOfBirth ),\n'
-        '  Muerte: $placeOfDeath ($dateOfDeath),\n'
-        '  Ocupaciones: $occupations\n'
+        '  Ocupaciones: ${occupations.toString()}\n'
         '}';
   }
 }

@@ -39,4 +39,12 @@ class Ocupacion {
 
   @override
   int get hashCode => id.hashCode;
+
+  @override
+  String toString() {
+    return 'Ocupaciones {\n'
+        '  ID: $id,\n'
+        '  Nombre: $name,\n'
+        '}';
+  }
 }

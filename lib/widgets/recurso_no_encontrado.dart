@@ -38,8 +38,7 @@ class RecursoNoEncontrado extends StatelessWidget {
 
             // Descripción más humana
             Text(
-              'No pudimos encontrar el recurso solicitado.\n'
-              'Puede que haya sido eliminado o no exista.',
+              'No hay datos para recurso solicitado.\n',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.grey[600],
