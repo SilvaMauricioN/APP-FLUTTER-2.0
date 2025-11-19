@@ -48,6 +48,29 @@ class Artista {
     this.nationality,
     required this.occupations,
   });
+
+  Artista copyWith({
+    int? idPrincipalMaker,
+    String? name,
+    String? placeOfBirth,
+    String? dateOfBirth,
+    String? dateOfDeath,
+    String? placeOfDeath,
+    String? nationality,
+    List<Ocupacion>? occupations,
+  }) {
+    return Artista(
+      idPrincipalMaker: idPrincipalMaker ?? this.idPrincipalMaker,
+      name: name ?? this.name,
+      placeOfBirth: placeOfBirth ?? this.placeOfBirth,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      dateOfDeath: dateOfDeath ?? this.dateOfDeath,
+      placeOfDeath: placeOfDeath ?? this.placeOfDeath,
+      nationality: nationality ?? this.nationality,
+      occupations: occupations ?? this.occupations,
+    );
+  }
+
   //get
   factory Artista.fromJson(Map<String, dynamic> json) => Artista(
       idPrincipalMaker: json["IdPrincipalMaker"] as int,

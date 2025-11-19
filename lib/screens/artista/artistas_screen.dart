@@ -82,8 +82,9 @@ class _BuscadorState extends State<ArtistaScreen> {
                       return TarjetaArtista(
                         artista: artista,
                         onTap: () {
-                          handler.artistaSeleccionado2 = artista;
+                          //handler.artistaSeleccionado = artista;
                           handler.artistaSeleccionado = artista.name;
+                          handler.editarArtista(artista);
                           handler.paginaActual = 2;
                         },
                       );

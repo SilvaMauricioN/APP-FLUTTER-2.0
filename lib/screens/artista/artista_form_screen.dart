@@ -1,6 +1,4 @@
 import 'package:app_demo/screens/screens.dart';
-import 'package:app_demo/widgets/form/campo_fecha.dart';
-import 'package:app_demo/widgets/form/campo_texto.dart';
 
 class ArtistaFormScreen extends StatefulWidget {
   const ArtistaFormScreen({super.key});
@@ -18,19 +16,48 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
   final _placeOfDeathController = TextEditingController();
   final _nationalityController = TextEditingController();
 
+  Artista? _artistaInicial;
+  bool get isEditMode => _artistaInicial != null;
+  bool _isInitialized = false;
+
+// acceder al context para leer los Providers, y context no está disponible en initState().
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.microtask(() => {
-            if (mounted) {context.read<OcupacionProvider>().getOcupaciones()}
-          });
-    });
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    //evita que se ejecute múltiples veces
+    if (!_isInitialized) {
+      final paginaHandler = context.read<PaginaHandler>();
+      _artistaInicial = paginaHandler.artistaParaEditar;
+
+      if (isEditMode) {
+        _cargarDatosArtista();
+      }
+
+      final ocupacionProvider = context.read<OcupacionProvider>();
+      ocupacionProvider.getOcupaciones().then((_) {
+        if (isEditMode) {
+          ocupacionProvider
+              .setSelectedFromExisting(_artistaInicial!.occupations);
+        }
+      });
+
+      _isInitialized = true;
+    }
+  }
+
+  void _cargarDatosArtista() {
+    final artista = _artistaInicial!;
+    _nameController.text = artista.name;
+    _placeOfBirthController.text = artista.placeOfBirth ?? '';
+    _dateOfBirthController.text = artista.dateOfBirth ?? '';
+    _dateOfDeathController.text = artista.dateOfDeath ?? '';
+    _placeOfDeathController.text = artista.placeOfDeath ?? '';
+    _nationalityController.text = artista.nationality ?? '';
   }
 
   @override
   void dispose() {
-    //context.read<OcupacionProvider>().clearSelectedOcupaciones();
+    _resetForm();
 
     _nameController.dispose();
     _placeOfBirthController.dispose();
@@ -42,6 +69,8 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
   }
 
   Future<void> _submitForm() async {
+    final paginaProvider = context.read<PaginaHandler>();
+
     if (!_formKey.currentState!.validate()) {
       MensajeApi.showError(context, 'Completa todos los campos');
       return;
@@ -55,7 +84,8 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
       return;
     }
 
-    final artista = Artista.nuevo(
+    final artista = Artista(
+        idPrincipalMaker: _artistaInicial?.idPrincipalMaker,
         name: _nameController.text.trim(),
         placeOfBirth: _placeOfBirthController.text.trim(),
         dateOfBirth: _dateOfBirthController.text.trim(),
@@ -64,23 +94,25 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
         nationality: _nationalityController.text.trim(),
         occupations: ocupacionProvider.getSelectedOcupacionesAsObjects());
 
-    debugPrint('Artista: ${artista.toString()}');
-    final success = await artistaProvider.postArtista(artista);
-    if (!mounted) return;
-    //success
-    if (success) {
-      ocupacionProvider.clearSelectedOcupaciones();
-      MensajeApi.showSuccess(context, 'Artista creado correctamente');
-      //_showMessage('Artista creado', false);
-      await Future.delayed(const Duration(milliseconds: 1500));
-      if (!mounted) return;
+    bool success;
+    if (isEditMode) {
+      success = await artistaProvider.updateArtista(artista);
+      paginaProvider.limpiarArtistaAEditar();
       _resetForm();
-      return;
-      //Navigator.of(context).pop(true);
+    } else {
+      success = await artistaProvider.postArtista(artista);
+      paginaProvider.limpiarArtistaAEditar();
+      _resetForm();
+    }
+
+    if (!mounted) return;
+    if (success) {
+      MensajeApi.showSuccess(
+          context, isEditMode ? 'Artista actualizado' : 'Artista creado');
+      await Future.delayed(const Duration(milliseconds: 2000));
+      paginaProvider.paginaActual = 1;
     } else {
       MensajeApi.showError(context, artistaProvider.errorMessage ?? 'Error');
-
-      //_showMessage(artistaProvider.errorMessage ?? 'Error', true);
     }
   }
 
@@ -91,9 +123,9 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
-          'Nuevo Artista',
-          style: TextStyle(
+        title: Text(
+          isEditMode ? 'Editar Artista' : 'Nuevo Artista',
+          style: const TextStyle(
             color: Colors.black87,
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -104,7 +136,7 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
         builder: (context, ocupacionProvider, artistaProvider, child) {
           // Estado de carga de ocupaciones
           if (ocupacionProvider.isLoadingPeticionBase) {
-            return const Center(child: CircularProgressIndicator());
+            return const Loading();
           }
 
           // Error al cargar ocupaciones
@@ -224,9 +256,9 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
                                   strokeWidth: 2,
                                 ),
                               )
-                            : const Text(
-                                'Guardar',
-                                style: TextStyle(
+                            : Text(
+                                isEditMode ? 'Actualizar' : 'Guardar',
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0.5,

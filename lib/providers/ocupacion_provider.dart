@@ -4,7 +4,7 @@ class OcupacionProvider extends PeticionesBaseProvider {
   final OcupacionServicio _ocupacionServicio = OcupacionServicio();
 
   List<Ocupacion> _listaOcupaciones = [];
-  final List<Ocupacion> _ocupacionesElegidas = [];
+  List<Ocupacion> _ocupacionesElegidas = [];
 
   List<Ocupacion> get ocupaciones => _listaOcupaciones;
   List<Ocupacion> get ocupacionesElegidas => _ocupacionesElegidas;
@@ -65,6 +65,21 @@ class OcupacionProvider extends PeticionesBaseProvider {
     return ocupacionesElegidas
         .map((o) => Ocupacion(id: o.id, name: o.name))
         .toList();
+  }
+
+  void setSelectedFromExisting(List<Ocupacion> ocupacionesDelArtista) {
+    ocupacionesElegidas.clear();
+
+    for (var o in ocupacionesDelArtista) {
+      ocupacionesElegidas.add(o);
+    }
+
+    notifyListeners();
+  }
+
+  void setSelectedFromExistings2(List<Ocupacion> existentes) {
+    _ocupacionesElegidas = existentes.map((e) => e).toList();
+    notifyListeners();
   }
 
   // Reset completo

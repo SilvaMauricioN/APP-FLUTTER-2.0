@@ -4,24 +4,14 @@ class PaginaHandler extends ChangeNotifier {
   int _paginaActual = 0;
   String _artistaSeleccionado = 'Rembrandt van Rijn';
   String _numeroObjeto = 'SK-C-5';
-  Artista _artistaSeleccionado2 = Artista(
-    idPrincipalMaker: 1,
-    name: "Rembrandt van Rijn",
-    placeOfBirth: "Leiden",
-    dateOfBirth: "1606-07-15",
-    dateOfDeath: "1669-10-08",
-    placeOfDeath: "Ámsterdam",
-    nationality: "Holandés del Norte",
-    occupations: ["dibujante", "grabador", "pintor"]
-        .map((e) => Ocupacion.fromString(e))
-        .toList(),
-  );
+  Artista? _artistaParaEditar;
 
   int get paginaActual => _paginaActual;
   String get artistaSeleccionado => _artistaSeleccionado;
   String get numeroObjeto => _numeroObjeto;
-  Artista get artistaSeleccionado2 => _artistaSeleccionado2;
+  Artista? get artistaParaEditar => _artistaParaEditar;
 
+  // SETTERS
   set paginaActual(int value) {
     _paginaActual = value;
     notifyListeners();
@@ -32,13 +22,26 @@ class PaginaHandler extends ChangeNotifier {
     notifyListeners();
   }
 
-  set numeroObjeto(String numeroObjeto) {
-    _numeroObjeto = numeroObjeto;
+  set numeroObjeto(String numero) {
+    _numeroObjeto = numero;
     notifyListeners();
   }
 
-  set artistaSeleccionado2(Artista artista) {
-    _artistaSeleccionado2 = artista;
+  void editarArtista(Artista? artista) {
+    _artistaParaEditar = artista;
+    notifyListeners();
+  }
+
+  void navegarAArtistaFormulario({Artista? artista}) {
+    const int indiceFormulario = 4;
+
+    _artistaParaEditar = artista;
+    _paginaActual = indiceFormulario;
+    notifyListeners();
+  }
+
+  void limpiarArtistaAEditar() {
+    _artistaParaEditar = null;
     notifyListeners();
   }
 }

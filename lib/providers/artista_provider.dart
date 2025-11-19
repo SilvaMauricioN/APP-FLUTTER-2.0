@@ -90,6 +90,10 @@ class ArtistaProvider extends PeticionesBaseProvider {
     }
   }
 
+  Future<bool> updateArtista(Artista artista) async {
+    return true;
+  }
+
   void filtrarBusqueda(String query) {
     if (query.isEmpty) {
       _artistasFiltrados = List.from(_listaArtistas);

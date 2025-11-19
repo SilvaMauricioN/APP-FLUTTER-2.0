@@ -12,28 +12,22 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
   void initState() {
     super.initState();
 
-    final handler = Provider.of<PaginaHandler>(context, listen: false);
+    final paginaHandler = Provider.of<PaginaHandler>(context, listen: false);
     final providerArtista =
         Provider.of<ArtistaProvider>(context, listen: false);
 
-    final artista = handler.artistaSeleccionado2;
+    final nombreArtista = paginaHandler.artistaSeleccionado;
 
     providerArtista.limpiarEstado();
     Future.microtask(
-      () => providerArtista.getObrasArtistaPorNombre(artista.name),
+      () => providerArtista.getObrasArtistaPorNombre(nombreArtista),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final handler = context.watch<PaginaHandler>();
-    // final providerArtista =
-    //     Provider.of<ArtistaProvider>(context, listen: false);
-    Artista artista = handler.artistaSeleccionado2;
-    // if (providerArtista.isLoadingBase) {
-    //   debugPrint('loading artista screen ${providerArtista.isLoading}');
-    //   return const Loading();
-    // }
+    final paginaHandler = context.watch<PaginaHandler>();
+    Artista? artista = paginaHandler.artistaParaEditar;
 
     return Consumer<ArtistaProvider>(
       builder: (context, provider, child) {
@@ -46,6 +40,10 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
           if (objError is! EntidadNoEncontradaException) {
             return WidgetError(errorMsg: provider.errorMsg!);
           }
+        }
+
+        if (artista == null) {
+          return const ArtistaNoElegido();
         }
 
         List<Obra> listaObras = provider.listaObrasDeArtista;
@@ -72,8 +70,10 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
                   borderRadius: BorderRadius.circular(12)),
               backgroundColor: Colors.blue,
               elevation: 0,
-              onPressed: () => {},
-              tooltip: 'Agregar Artista',
+              onPressed: () {
+                paginaHandler.navegarAArtistaFormulario(artista: artista);
+              },
+              tooltip: 'Editar Artista',
               child: const Icon(
                 Icons.edit_square,
               ),

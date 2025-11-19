@@ -66,7 +66,7 @@ class _NavegacionBar extends State<Navegacion> {
             activeIcon: Icon(
               Icons.image,
             ),
-            label: 'Cuadro',
+            label: 'Detalle',
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -75,20 +75,14 @@ class _NavegacionBar extends State<Navegacion> {
             activeIcon: Icon(
               Icons.person_add_alt,
             ),
-            label: 'Artista +',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.add_photo_alternate_outlined,
-            ),
-            activeIcon: Icon(
-              Icons.add_photo_alternate_outlined,
-            ),
-            label: 'Obra +',
+            label: 'Nuevo',
           ),
         ],
         currentIndex: page.paginaActual,
         onTap: (value) {
+          if (value == 4) {
+            context.read<PaginaHandler>().limpiarArtistaAEditar();
+          }
           page.paginaActual = value;
         },
         iconSize: 20,

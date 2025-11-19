@@ -39,6 +39,9 @@ export 'package:app_demo/widgets/form/selector_ocupacion.dart';
 export 'package:app_demo/widgets/resApi/mensaje_api.dart';
 export 'package:app_demo/widgets/form/formatear_fecha.dart';
 export 'package:app_demo/widgets/obra/msg_artista_sin_obra.dart';
+export 'package:app_demo/widgets/form/campo_fecha.dart';
+export 'package:app_demo/widgets/form/campo_texto.dart';
+export 'package:app_demo/widgets/artista/artista_no_seleccionado.dart';
 //Paquete Screens
 export 'package:app_demo/screens/inicio.dart';
 export 'package:app_demo/screens/artista/obras_artista_screen.dart';
