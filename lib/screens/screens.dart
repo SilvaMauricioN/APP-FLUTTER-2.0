@@ -7,7 +7,6 @@ export 'dart:convert';
 export '../config/api_config.dart';
 
 //Paquete provider
-export 'package:app_demo/providers/museo_service.dart';
 export 'package:app_demo/providers/pagina_handler.dart';
 export 'package:app_demo/providers/theme_provider.dart';
 export 'package:provider/provider.dart';
@@ -74,3 +73,4 @@ export 'package:app_demo/theme/theme.dart';
 export 'package:app_demo/errors/entidad_no_encontrada.dart';
 export 'package:app_demo/errors/widget_error.dart';
 export 'package:app_demo/errors/api_exception.dart';
+export 'package:app_demo/errors/recurso_existente.dart';

@@ -135,13 +135,13 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
       body: Consumer2<OcupacionProvider, ArtistaProvider>(
         builder: (context, ocupacionProvider, artistaProvider, child) {
           // Estado de carga de ocupaciones
-          if (ocupacionProvider.isLoadingPeticionBase) {
+          if (ocupacionProvider.isLoading) {
             return const Loading();
           }
 
           // Error al cargar ocupaciones
           if (ocupacionProvider.ocupaciones.isEmpty &&
-              ocupacionProvider.errorMsg != null) {
+              ocupacionProvider.errorMessage != null) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

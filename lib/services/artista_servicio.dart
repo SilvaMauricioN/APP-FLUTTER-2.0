@@ -1,5 +1,3 @@
-import 'package:app_demo/errors/recurso_existente.dart';
-
 import '../screens/screens.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,20 +31,16 @@ class ArtistaServicio {
       body: json.encode(artista.toJson()),
     );
 
-    if (response.statusCode != 201) {
-      final jsonBody = json.decode(response.body);
+    return apiService.modifyDatos(response, 201);
+  }
 
-      if (response.statusCode == 409) {
-        final detalle = jsonBody['detalle'] ?? '';
-        throw RecursoExistenteException(detalle);
-      }
-      throw ApiException(
-        'Error en los datos enviados (${response.statusCode})',
-      );
-    }
-    final jsonBody = json.decode(response.body);
+  Future<ApiResponse<Artista>> updateArtista(Artista artista) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/artista/${artista.idPrincipalMaker}'),
+      headers: headers,
+      body: json.encode(artista.toJson()),
+    );
 
-    return ApiResponse.fromJsonSingle(
-        jsonBody, (json) => Artista.fromPostResponseJson(json));
+    return apiService.modifyDatos(response, 200);
   }
 }

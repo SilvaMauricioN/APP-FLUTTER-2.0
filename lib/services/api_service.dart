@@ -47,4 +47,27 @@ class ApiService {
 
     return ApiResponse.fromJson(jsonBody, fromJson);
   }
+
+  Future<ApiResponse<Artista>> modifyDatos(
+    http.Response response,
+    int statusCode,
+  ) async {
+    if (response.statusCode != statusCode) {
+      final jsonBody = json.decode(response.body);
+
+      if (response.statusCode == 409) {
+        final detalle = jsonBody['detalle'] ?? '';
+        throw RecursoExistenteException(detalle);
+      }
+      throw ApiException(
+        'Error en los datos enviados (${response.statusCode})',
+      );
+    }
+
+    final jsonBody = json.decode(response.body);
+    return ApiResponse.fromJsonSingle(
+      jsonBody,
+      (json) => Artista.fromPostResponseJson(json),
+    );
+  }
 }

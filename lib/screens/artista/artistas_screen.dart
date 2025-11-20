@@ -39,13 +39,13 @@ class _BuscadorState extends State<ArtistaScreen> {
         ),
         Flexible(
           child: Builder(builder: (context) {
-            if (artistaProvider.isLoadingPeticionBase) {
+            if (artistaProvider.isLoading) {
               return const Loading();
             }
             if (artistaProvider.hasError) {
               return WidgetError(
-                  errorMsg:
-                      artistaProvider.errorMsg ?? 'Error al obtener los datos');
+                  errorMsg: artistaProvider.errorMessage ??
+                      'Error al obtener los datos');
             }
             if (artistaProvider.listaArtistas.isEmpty) {
               return Center(

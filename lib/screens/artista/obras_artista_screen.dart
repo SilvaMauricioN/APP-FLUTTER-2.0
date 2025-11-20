@@ -31,14 +31,14 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
 
     return Consumer<ArtistaProvider>(
       builder: (context, provider, child) {
-        if (provider.isLoadingPeticionBase) {
+        if (provider.isLoading) {
           return const Loading();
         }
 
         if (provider.hasError) {
           final objError = provider.error;
           if (objError is! EntidadNoEncontradaException) {
-            return WidgetError(errorMsg: provider.errorMsg!);
+            return WidgetError(errorMsg: provider.errorMessage!);
           }
         }
 

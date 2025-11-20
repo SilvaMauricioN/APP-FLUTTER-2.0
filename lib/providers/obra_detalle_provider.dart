@@ -18,36 +18,4 @@ class ObraDetalleProvider extends PeticionesBaseProvider {
       },
     );
   }
-
-//   Future<void> getObraDetallePorId(String objectNumber) async {
-//     _isLoading = true;
-//     _hasError = false;
-//     _errorMsg = null;
-//     _listaObraDetalle = [];
-//     notifyListeners();
-//     try {
-//       final response =
-//           await _obraDetalleServicio.getObraDetallePorId(objectNumber);
-//
-//       _listaObraDetalle = response.data ?? [];
-//
-//       if (_listaObraDetalle.isEmpty) {
-//         throw EntidadNoEncontradaException(
-//             'No se encontraron detalles de obras para el ID.', 'Lista vacía');
-//       }
-//       _hasError = false;
-//       _isLoading = false;
-//       notifyListeners();
-//     } on EntidadNoEncontradaException catch (e) {
-//       _hasError = true;
-//       _isLoading = false;
-//       _errorMsg = e.message;
-//       notifyListeners();
-//     } on ApiException catch (e) {
-//       _hasError = true;
-//       _isLoading = false;
-//       _errorMsg = e.message;
-//       notifyListeners();
-//     }
-//   }
 }

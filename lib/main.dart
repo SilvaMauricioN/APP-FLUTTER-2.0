@@ -5,7 +5,6 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => PaginaHandler()),
-      ChangeNotifierProvider(create: (context) => MuseumService()),
       ChangeNotifierProvider(create: (context) => ObraProvider()),
       ChangeNotifierProvider(create: (context) => ArtistaProvider()),
       ChangeNotifierProvider(create: (context) => ObraDetalleProvider()),
