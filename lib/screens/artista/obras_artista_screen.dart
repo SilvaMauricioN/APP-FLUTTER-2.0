@@ -160,8 +160,8 @@ Future<void> _eliminarArtista(BuildContext context, Artista artista,
     context: context,
     barrierDismissible: false,
     builder: (context) => const Center(
-        //child: CircularProgressIndicator(),
-        ),
+      child: Loading(),
+    ),
   );
 
   try {
@@ -169,7 +169,7 @@ Future<void> _eliminarArtista(BuildContext context, Artista artista,
     provider.deleteArtista(artista.idPrincipalMaker!);
 
     // Cerrar el indicador de carga
-    //if (context.mounted) Navigator.of(context).pop();
+    if (context.mounted) Navigator.of(context).pop();
 
     // Mostrar mensaje de éxito
     if (context.mounted) {

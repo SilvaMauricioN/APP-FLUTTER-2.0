@@ -1,51 +1,25 @@
 import '../screens/screens.dart';
 
-class ObraProvider with ChangeNotifier {
+class ObraProvider extends PeticionesBaseProvider {
   final ObraServicio _obraServicio = ObraServicio();
   //variables
   List<Obra> _listaObras = [];
-  bool _isLoading = false;
-  Object? _error;
-  bool _hasError = false;
   Paginacion? _paginacion;
   int paginaActual = 1;
   final int _limite = 20;
 
   //getters
   List<Obra> get obras => _listaObras;
-  bool get isLoading => _isLoading;
-  bool get hasError => _hasError;
   Paginacion? get paginacion => _paginacion;
-  Object? get error => _error;
 
   Future<void> getColeccionObras() async {
-    _isLoading = true;
-    notifyListeners();
-
-    try {
-      final response = await _obraServicio.getColeccionObras(
-          pagina: paginaActual, limite: _limite);
-
-      _listaObras = response.data ?? [];
-      _paginacion = response.paginacion;
-      // _isLoading = false;
-      _hasError = false;
-      notifyListeners();
-    } on EntidadNoEncontradaException catch (e) {
-      _hasError = true;
-      // _isLoading = false;
-      _error = e;
-      // notifyListeners();
-      rethrow;
-    } on ApiException catch (e) {
-      _listaObras = [];
-      _paginacion = null;
-      _error = e;
-      // notifyListeners();
-      rethrow;
-    }
-    _isLoading = false;
-    notifyListeners();
+    await getRequest(
+        reqFuncion: () => _obraServicio.getColeccionObras(
+            pagina: paginaActual, limite: _limite),
+        enResExito: (response) {
+          _listaObras = response.data ?? [];
+          _paginacion = response.paginacion;
+        });
   }
 
   void irAPaginaAnterior() {

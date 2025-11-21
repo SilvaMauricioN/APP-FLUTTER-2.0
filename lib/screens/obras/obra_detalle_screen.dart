@@ -11,11 +11,11 @@ class _ObraDetalleState extends State<ObraDetalleScreen> {
   @override
   void initState() {
     super.initState();
-    final handler = Provider.of<PaginaHandler>(context, listen: false);
+    final paginaHandler = Provider.of<PaginaHandler>(context, listen: false);
     final obraDetalleProvider =
         Provider.of<ObraDetalleProvider>(context, listen: false);
 
-    String idObjeto = handler.numeroObjeto;
+    String idObjeto = paginaHandler.numeroObjeto;
     Future.microtask(() => obraDetalleProvider.getObraDetalle(idObjeto));
   }
 

@@ -25,6 +25,10 @@ class GaleriaObrasScreen extends StatelessWidget {
           if (objError is EntidadNoEncontradaException) {
             return RecursoNoEncontrado(
               mensaje: objError.detail,
+              onVolver: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const GaleriaObrasScreen())),
             );
           } else {
             return WidgetError(errorMsg: objError.toString());
