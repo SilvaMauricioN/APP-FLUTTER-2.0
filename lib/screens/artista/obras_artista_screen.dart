@@ -61,7 +61,18 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            actions: const [],
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  Icons.delete_outline,
+                  color: Colors.red,
+                ),
+                tooltip: 'Eliminar artista',
+                onPressed: () => _mostrarDialogoEliminar(
+                    context, artista, provider, paginaHandler),
+              ),
+              const SizedBox(width: 8),
+            ],
           ),
           floatingActionButton: Container(
             margin: const EdgeInsets.only(bottom: 20, right: 12),
@@ -129,5 +140,61 @@ class _ObrasArtistaScreenState extends State<ObrasArtistaScreen> {
         );
       },
     );
+  }
+}
+
+void _mostrarDialogoEliminar(BuildContext context, Artista artista,
+    ArtistaProvider provider, PaginaHandler paginaHandler) {
+  ModalConfirmacionEliminacion.mostrar(
+    context: context,
+    nombreArtista: artista.name,
+    onConfirmar: () =>
+        _eliminarArtista(context, artista, provider, paginaHandler),
+  );
+}
+
+Future<void> _eliminarArtista(BuildContext context, Artista artista,
+    ArtistaProvider provider, PaginaHandler paginaHandler) async {
+  // Mostrar indicador de carga
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => const Center(
+        //child: CircularProgressIndicator(),
+        ),
+  );
+
+  try {
+    // Llamar al provider para eliminar el artista
+    provider.deleteArtista(artista.idPrincipalMaker!);
+
+    // Cerrar el indicador de carga
+    //if (context.mounted) Navigator.of(context).pop();
+
+    // Mostrar mensaje de éxito
+    if (context.mounted) {
+      Notificacion.mostrarExito(
+        context,
+        'Artista "${artista.name}" eliminado correctamente',
+      );
+
+      // Volver a la página anterior después de un breve delay
+      await Future.delayed(const Duration(milliseconds: 500));
+      paginaHandler.paginaActual = 1;
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+    }
+  } catch (e) {
+    // Cerrar el indicador de carga
+    if (context.mounted) Navigator.of(context).pop();
+
+    // Mostrar mensaje de error
+    if (context.mounted) {
+      Notificacion.mostrarError(
+        context,
+        'Error al eliminar artista: ${e.toString()}',
+      );
+    }
   }
 }

@@ -41,6 +41,8 @@ export 'package:app_demo/widgets/obra/msg_artista_sin_obra.dart';
 export 'package:app_demo/widgets/form/campo_fecha.dart';
 export 'package:app_demo/widgets/form/campo_texto.dart';
 export 'package:app_demo/widgets/artista/artista_no_seleccionado.dart';
+export 'package:app_demo/widgets/artista/modal_confirmacion_eliminar.dart';
+export 'package:app_demo/widgets/artista/notificacion.dart';
 //Paquete Screens
 export 'package:app_demo/screens/inicio.dart';
 export 'package:app_demo/screens/artista/obras_artista_screen.dart';

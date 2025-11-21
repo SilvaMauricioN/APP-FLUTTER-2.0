@@ -55,6 +55,10 @@ class ArtistaProvider extends PeticionesBaseProvider {
     );
   }
 
+  void deleteArtista(int idPrincipalMaker) {
+    print('Artista eliminado $idPrincipalMaker');
+  }
+
   void filtrarBusqueda(String query) {
     if (query.isEmpty) {
       _artistasFiltrados = List.from(_listaArtistas);
