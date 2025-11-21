@@ -1,50 +1,66 @@
-# Demo App Museo Rijks
+# Museo Rijks App
 
-Introducción
+Aplicación desarrollada en Flutter para explorar obras de arte y artistas de un museo virtual. Permite visualizar colecciones, buscar artistas y gestionar información.
 
-Esta es una aplicación del Museo Rijks desarrollada en Flutter. La aplicación presenta varias pantallas para mostrar información sobre obras de arte, artistas y detalles específicos de cada obra.
+## Captura de pantallas
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+  <figure>
+    <img src="assets/appImages/inicio.jpg" width="250">
+    <figcaption>Inicio</figcaption>
+  </figure>
+  <figure>
+    <img src="assets/appImages/pantalla1.jpg" width="250">
+    <figcaption>Lista Obras</figcaption>
+  </figure>
+  <figure>
+    <img src="assets/appImages/pantalla2.jpg" width="250">
+    <figcaption>Lista Artistas</figcaption>
+  </figure>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+  <figure>
+    <img src="assets/appImages/pantalla4.jpg" width="250">
+    <figcaption>Inicio</figcaption>
+  </figure>
+  <figure>
+    <img src="assets/appImages/pantalla4.jpg" width="250">
+    <figcaption>Lista Obras</figcaption>
+  </figure>
+  <figure>
+    <img src="assets/appImages/pantalla5.jpg" width="250">
+    <figcaption>Lista Artistas</figcaption>
+  </figure>
+</div>
 
 ## Características Principales
 
+Características
 
-- **Pantalla de Inicio:** Botón para iniciar la navegación.
-
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="assets/appImages/Inicio.png" alt="Pantalla Inicio" width="350" height="750">
-
-
-- **Galería de Obras:** Muestra una colección de obras de arte. Permite hacer clic en una obra para ver a pantalla completa. Ademas de permitir hacer click en el nombre de la obra y direccionarte a la pantalla Obra, para ver detalles especificos de las misma.
-
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="assets/appImages/PantallaGaleria.png" alt="Pantalla Galeria" width="350" height="750">
-
-
-- **Buscador de Artistas:** Permite buscar y filtrar artistas, Permite cliclear en un artista y direccionarte a la pantalla Galeria de Artista.
-
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="assets/appImages/PantallaBuscador.png" alt="Pantalla Galeria" width="350" height="750">
-
-
-- **Galería por Artista:** Muestra una galería de las principales obras de un artista seleccionado. Tambien permite hacer click en el nombre de la obra y direccionarte a la pantalla Obra.
-
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="assets/appImages/PantallaObrasArtistas.png" alt="Pantalla Galeria" width="350" height="750">
-
-
-- **Detalles de una Obra:** Proporciona información detallada sobre una obra de arte, incluyendo imágenes, títulos y detalles técnicos.
-
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="assets/appImages/PantallaObra.png" alt="Pantalla Galeria" width="350" height="750">
-
+*Galería de Obras: Visualiza todas las obras de arte disponibles en el museo
+*Directorio de Artistas: Lista completa de artistas con funcionalidad de búsqueda
+*Perfil de Artista: Información detallada del artista y sus obras
+*Detalles de Obra: Vista ampliada con información completa de cada pieza
+\*Gestión de Artistas: Formulario para crear y actualizar artistas (CRUD)
 
 ## Configuración y Dependencias
 
-Flutter: Framework de desarrollo de aplicaciones móviles multiplataforma.
+## Tecnologías y Dependencias
 
+Flutter: Framework de desarrollo de aplicaciones móviles multiplataforma.
 La aplicación utiliza las siguientes dependencias principales:
 
-- `provider`: Manejador de estado para compartir datos entre diferentes partes de la aplicación.
-
-- `http`: Para realizar solicitudes HTTP para obtener datos de la API del Museo Rijks..
+```
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  http: ^1.1.0                 # Peticiones HTTP
+  flutter_dotenv: ^5.1.0       # Gestion variables de entorno
+  provider: ^6.1.1             # Gestión de estado
+```
 
 API del Museo Rijks
 
-La aplicación utiliza la API pública del Museo Rijks para obtener información sobre las obras de arte. Puedes encontrar más información sobre la API en la siguiente dirección: https://museorijks.onrender.com/
-
-
-
+La aplicación utiliza la api del Museo Rijks, para obtener información sobre las obras de arte. Puedes encontrar más información sobre la API en la siguiente dirección: https://museo-dwgk.onrender.com
