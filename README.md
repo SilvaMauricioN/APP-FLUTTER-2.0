@@ -40,31 +40,31 @@ Aplicación desarrollada en Flutter para explorar obras de arte y artistas de un
 
 ## Características Principales
 
-> Galería de Obras:
->
-> > Muestra todas las obras de arte disponibles en el museo
-> > Permite hacer ver en pantalla completa cada imagen
-> > Permite reedirigir y ver los detalles de cada obra
+### Galería de Obras:
 
-> Listado de Artistas:
->
-> > Lista completa de artistas
-> > Buscador integrado para filtrar por nombre
-> > Permite navegación al perfil de cada artista
+> - Muestra todas las obras de arte disponibles en el museo.
+> - Permite hacer ver en pantalla completa cada imagen.
+> - Permite reedirigir y ver los detalles de cada obra.
 
-> Perfil de Artista:
->
-> > Información biogradfica del artista
-> > Lista de obras del artista seleccionado
-> > Opciones para edita o eliminar
+### Listado de Artistas:
 
-> Detalles de Obra:
->
-> > Vista ampliada con información completa de cada obra
+> - Lista completa de artistas.
+> - Buscador integrado para filtrar por nombre.
+> - Permite navegación al perfil de cada artista.
 
-> Gestión de Artistas:
->
-> > Formulario para crear y actualizar artistas (CRUD)
+### Perfil de Artista:
+
+> - Información biogradfica del artista.
+> - Lista de obras del artista seleccionado.
+> - Opciones para edita o eliminar.
+
+### Detalles de Obra:
+
+> - Vista ampliada con información completa de cada obra.
+
+### Gestión de Artistas:
+
+> - Formulario para crear y actualizar artistas (CRUD).
 
 ## Tecnologías y Dependencias
 
@@ -83,7 +83,7 @@ dependencies:
 
 ## Intalación y Configuración
 
-##Prerrequisitos
+## Prerrequisitos
 
 - Flutter SDK (versión 3.0 o superior)
 - Dart SDK (versión 3.0 o superior)
@@ -97,14 +97,12 @@ dependencies:
 ```
 git clone https://github.com/SilvaMauricioN/APP-FLUTTER-2.0.git
 code APP-FLUTTER-2.0
-
 ```
 
 ### 2 Instalar dependencias:
 
 ```
 flutter pub get
-
 ```
 
 ### 3 Configurar variables de entorno:
