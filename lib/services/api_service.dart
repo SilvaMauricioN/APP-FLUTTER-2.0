@@ -59,6 +59,11 @@ class ApiService {
         final detalle = jsonBody['detalle'] ?? '';
         throw RecursoExistenteException(detalle);
       }
+
+      if (response.statusCode == 404) {
+        final detalle = jsonBody['detalle'] ?? '';
+        throw RecursoNoEncontrado(message: detalle);
+      }
       throw ApiException(
         'Error en los datos enviados (${response.statusCode})',
       );

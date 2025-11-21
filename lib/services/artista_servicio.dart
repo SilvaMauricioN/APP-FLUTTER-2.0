@@ -43,4 +43,13 @@ class ArtistaServicio {
 
     return apiService.modifyDatos(response, 200);
   }
+
+  Future<ApiResponse<Artista>> deleteArtista(int idPrincipalMaker) async {
+    final response = await http.delete(
+      Uri.parse('$baseUrl/artista/$idPrincipalMaker'),
+      headers: headers,
+    );
+
+    return apiService.modifyDatos(response, 200);
+  }
 }

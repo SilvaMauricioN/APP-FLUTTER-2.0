@@ -85,6 +85,11 @@ abstract class PeticionesBaseProvider extends ChangeNotifier {
       _errorMsg = e.message;
       _error = e;
       return false;
+    } on RecursoNoEncontrado catch (e) {
+      _hasError = true;
+      _errorMsg = e.message;
+      _error = e;
+      return false;
     } on ApiException catch (e) {
       _hasError = true;
       _errorMsg = e.message;

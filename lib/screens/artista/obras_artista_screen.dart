@@ -155,41 +155,34 @@ void _mostrarDialogoEliminar(BuildContext context, Artista artista,
 
 Future<void> _eliminarArtista(BuildContext context, Artista artista,
     ArtistaProvider provider, PaginaHandler paginaHandler) async {
-  // Mostrar indicador de carga
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (context) => const Center(
-      child: Loading(),
-    ),
+    builder: (context) => const Loading(),
   );
 
   try {
-    // Llamar al provider para eliminar el artista
-    provider.deleteArtista(artista.idPrincipalMaker!);
+    bool success = await provider.deleteArtista(artista.idPrincipalMaker!);
 
-    // Cerrar el indicador de carga
     if (context.mounted) Navigator.of(context).pop();
-
-    // Mostrar mensaje de éxito
-    if (context.mounted) {
+    if (!context.mounted) return;
+    if (success) {
       Notificacion.mostrarExito(
         context,
         'Artista "${artista.name}" eliminado correctamente',
       );
-
-      // Volver a la página anterior después de un breve delay
-      await Future.delayed(const Duration(milliseconds: 500));
-      paginaHandler.paginaActual = 1;
-      if (context.mounted) {
-        Navigator.of(context).pop();
-      }
+      await Future.delayed(const Duration(milliseconds: 3000));
+    } else {
+      Notificacion.mostrarError(
+        context,
+        'Error al eliminar artista: ${provider.errorMessage}',
+      );
+      await Future.delayed(const Duration(milliseconds: 3000));
     }
+    paginaHandler.paginaActual = 1;
   } catch (e) {
-    // Cerrar el indicador de carga
     if (context.mounted) Navigator.of(context).pop();
 
-    // Mostrar mensaje de error
     if (context.mounted) {
       Notificacion.mostrarError(
         context,

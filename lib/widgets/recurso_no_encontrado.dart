@@ -3,12 +3,12 @@ import 'package:app_demo/screens/screens.dart';
 import 'package:flutter/material.dart';
 
 class RecursoNoEncontrado extends StatelessWidget {
-  final String mensaje;
+  final String message;
   final VoidCallback? onVolver;
 
   const RecursoNoEncontrado({
     super.key,
-    this.mensaje = 'Recurso no encontrado',
+    this.message = 'Recurso no encontrado',
     this.onVolver,
   });
 
@@ -26,7 +26,7 @@ class RecursoNoEncontrado extends StatelessWidget {
 
             // Mensaje principal
             Text(
-              mensaje,
+              message,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,

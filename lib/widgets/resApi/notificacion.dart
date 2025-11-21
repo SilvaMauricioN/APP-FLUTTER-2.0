@@ -21,7 +21,15 @@ class Notificacion {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        margin: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height * 0.20,
+          left: 12,
+          right: 12,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 16,
+        ),
         duration: const Duration(seconds: 3),
       ),
     );
@@ -47,8 +55,16 @@ class Notificacion {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 4),
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height * 0.20,
+          left: 12,
+          right: 12,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 16,
+        ),
+        duration: const Duration(seconds: 3),
       ),
     );
   }

@@ -24,7 +24,7 @@ class GaleriaObrasScreen extends StatelessWidget {
           final objError = provider.error;
           if (objError is EntidadNoEncontradaException) {
             return RecursoNoEncontrado(
-              mensaje: objError.detail,
+              message: objError.detail,
               onVolver: () => Navigator.push(
                   context,
                   MaterialPageRoute(

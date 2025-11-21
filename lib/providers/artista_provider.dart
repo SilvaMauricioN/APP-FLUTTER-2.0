@@ -55,8 +55,10 @@ class ArtistaProvider extends PeticionesBaseProvider {
     );
   }
 
-  void deleteArtista(int idPrincipalMaker) {
-    print('Artista eliminado $idPrincipalMaker');
+  Future<bool> deleteArtista(int idPrincipalMaker) async {
+    return await modifyRequest(
+        reqFuncion: () => _artistaServicio.deleteArtista(idPrincipalMaker),
+        mensajeExito: 'Artista eliminado corretamente');
   }
 
   void filtrarBusqueda(String query) {

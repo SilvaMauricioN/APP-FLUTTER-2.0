@@ -72,7 +72,7 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
     final paginaProvider = context.read<PaginaHandler>();
 
     if (!_formKey.currentState!.validate()) {
-      MensajeApi.showError(context, 'Completa todos los campos');
+      Notificacion.mostrarError(context, 'Completa todos los campos');
       return;
     }
 
@@ -80,7 +80,7 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
     final artistaProvider = context.read<ArtistaProvider>();
 
     if (ocupacionProvider.ocupacionesElegidas.isEmpty) {
-      MensajeApi.showError(context, 'Selecciona al menos una ocupación');
+      Notificacion.mostrarError(context, 'Selecciona al menos una ocupación');
       return;
     }
 
@@ -107,12 +107,13 @@ class _ArtistaFormScreenState extends State<ArtistaFormScreen> {
 
     if (!mounted) return;
     if (success) {
-      MensajeApi.showSuccess(
-          context, isEditMode ? 'Artista actualizado' : 'Artista creado');
+      Notificacion.mostrarExito(context, 'Artista actualizado');
       await Future.delayed(const Duration(milliseconds: 2000));
       paginaProvider.paginaActual = 1;
     } else {
-      MensajeApi.showError(context, artistaProvider.errorMessage ?? 'Error');
+      Notificacion.mostrarError(context,
+          'Error al actualizar artista ${artistaProvider.errorMessage}');
+      paginaProvider.paginaActual = 1;
     }
   }
 
