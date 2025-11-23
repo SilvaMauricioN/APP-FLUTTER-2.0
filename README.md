@@ -7,15 +7,15 @@ Aplicación desarrollada en Flutter para explorar obras de arte y artistas de un
 <table width="100%">
   <tr>
     <td align="center" width="33%">
-      <img src="assets/appImages/inicio.jpg" width="250" alt="Inicio"/><br/>
+      <img src="assets/appImages/inicio.webp" width="250" alt="Inicio"/><br/>
       <b>Inicio</b>
     </td>
     <td align="center" width="33%">
-      <img src="assets/appImages/pantalla1.jpg" width="250" alt="Lista Obras"/><br/>
+      <img src="assets/appImages/pantalla1.webp" width="250" alt="Lista Obras"/><br/>
       <b>Galeria Obras</b>
     </td>
     <td align="center" width="33%">
-      <img src="assets/appImages/pantalla2.jpg" width="250" alt="Lista Artistas"/><br/>
+      <img src="assets/appImages/pantalla2.webp" width="250" alt="Lista Artistas"/><br/>
       <b>Listado Artistas</b>
     </td>
   </tr>
@@ -24,15 +24,15 @@ Aplicación desarrollada en Flutter para explorar obras de arte y artistas de un
 <table width="100%">
   <tr>
     <td align="center" width="33%">
-      <img src="assets/appImages/pantalla3.jpg" width="250" alt="Inicio"/><br/>
+      <img src="assets/appImages/pantalla3.webp" width="250" alt="Inicio"/><br/>
       <b>Perfil de Artista</b>
     </td>
     <td align="center" width="33%">
-      <img src="assets/appImages/pantalla4.jpg" width="250" alt="Lista Obras"/><br/>
+      <img src="assets/appImages/pantalla4.webp" width="250" alt="Lista Obras"/><br/>
       <b>Detalle De Obras</b>
     </td>
     <td align="center" width="33%">
-      <img src="assets/appImages/pantalla5.jpg" width="250" alt="Lista Artistas"/><br/>
+      <img src="assets/appImages/pantalla5.webp" width="250" alt="Lista Artistas"/><br/>
       <b>Gestión Artista</b>
     </td>
   </tr>
